@@ -1,0 +1,43 @@
+<wpml-config>
+	<!-- Multilingual (WPML / Polylang with WPML config support) -->
+	<custom-types>
+		<custom-type translate="1">property</custom-type>
+		<custom-type translate="1">testimonial</custom-type>
+		<custom-type translate="0">spr_enquiry</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">property_location</taxonomy>
+		<taxonomy translate="1">property_type</taxonomy>
+		<taxonomy translate="1">property_purpose</taxonomy>
+		<taxonomy translate="1">property_configuration</taxonomy>
+	</taxonomies>
+	<custom-fields>
+		<!-- Numbers / choices are copied to translations -->
+		<custom-field action="copy">_spr_price</custom-field>
+		<custom-field action="copy">_spr_area</custom-field>
+		<custom-field action="copy">_spr_area_unit</custom-field>
+		<custom-field action="copy">_spr_bedrooms</custom-field>
+		<custom-field action="copy">_spr_bathrooms</custom-field>
+		<custom-field action="copy">_spr_furnishing</custom-field>
+		<custom-field action="copy">_spr_status</custom-field>
+		<custom-field action="copy">_spr_gallery</custom-field>
+		<custom-field action="copy">_spr_map_url</custom-field>
+		<custom-field action="copy">_spr_rera</custom-field>
+		<custom-field action="copy">_spr_amenities</custom-field>
+		<custom-field action="copy">_spr_featured</custom-field>
+		<custom-field action="copy">_spr_rating</custom-field>
+		<!-- Text is translated -->
+		<custom-field action="translate">_spr_price_label</custom-field>
+		<custom-field action="translate">_spr_address</custom-field>
+		<custom-field action="translate">_spr_highlights</custom-field>
+		<custom-field action="translate">_spr_possession</custom-field>
+		<custom-field action="translate">_spr_client_meta</custom-field>
+	</custom-fields>
+	<admin-texts>
+		<key name="spr_business">
+			<key name="name" />
+			<key name="address" />
+			<key name="hours" />
+		</key>
+	</admin-texts>
+</wpml-config>

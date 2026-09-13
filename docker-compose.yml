@@ -45,8 +45,7 @@ services:
         define( 'WP_DEBUG_LOG', true );
         define( 'WP_DEBUG_DISPLAY', false );
         define( 'SCRIPT_DEBUG', true );
-        /* सगळे mail Mailpit कडे पाठवा (SMTP) */
-        define( 'WORDPRESS_SMTP_HOST', 'mailpit' );
+        /* Mail: docker/mu-plugins/spr-dev-mailpit.php सगळे mail Mailpit कडे पाठवते */
     volumes:
       - wp_core:/var/www/html
       # आपले plugin + theme थेट mount — code बदलले की लगेच दिसते.

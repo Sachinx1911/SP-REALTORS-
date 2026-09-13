@@ -49,7 +49,18 @@ $spr_includes = array(
 	'includes/admin-columns.php',
 	'includes/admin-gallery.php',
 	'includes/activation.php',
+	'includes/query-filters.php',
+	'includes/ajax-load-more.php',
+	'includes/enquiry-handler.php',
+	'includes/shortcodes.php',
+	'includes/structured-data.php',
+	'includes/customizer-business.php',
 );
+
+// Admin-only screens (settings, notices, demo tools). demo-content.php is loaded on demand.
+if ( is_admin() ) {
+	$spr_includes[] = 'includes/settings-page.php';
+}
 
 foreach ( $spr_includes as $spr_file ) {
 	require_once SPR_PATH . $spr_file;
