@@ -368,31 +368,40 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 
 > GitHub: https://github.com/Sachinx1911/SP-REALTORS-.git (branch `main`)
 
-### Phase 1 — Environment `[~]` (फक्त WP install बाकी — user admin account बनवणार)
+### Dev notes (पुढच्या session साठी महत्त्वाचे)
+- WP-CLI: `docker compose exec -T -e HTTP_HOST=localhost:8080 wpcli wp <command>` (admin tasks साठी `--user=1`)
+- Plugin tests: `... wpcli wp eval-file /tests/plugin-smoke.php --user=1` (48 checks; demo import पण करतो)
+- PHP 7.4 lint: `docker run --rm -v "${PWD}:/app" -w /app php:7.4-cli sh docker/tools/lint.sh`
+- Pretty permalinks साठी `.htaccess`: `docker compose cp docker/config/htaccess wordpress:/var/www/html/.htaccess` (नवीन volume बनवल्यावर पुन्हा)
+- Admin user `SPREALTORS` (user ने बनवला; password मी वापरत नाही)
+- Dev मध्ये `spr_business` मध्ये **fake** WhatsApp `910000000000` / phone `+91 00000 00000` टाकले आहेत (buttons test करण्यासाठी) — launch आधी broker चे खरे number Customizer मधून टाकायचे
+- Mailpit: http://localhost:8025 (सगळे mail इथे येतात, खऱ्या inbox मध्ये जात नाहीत)
+
+### Phase 1 — Environment `[x]`
 - [x] `PLAN.md` project मध्ये copy, `design/` folder
 - [x] `docker-compose.yml`, `.env.example`, mailpit mu-plugin
 - [x] Containers चालू (WordPress core 7.1, MySQL 8, Mailpit, phpMyAdmin)
-- [ ] WP install (user: http://localhost:8080), permalinks `/%postname%/`
+- [x] WP install (user ने केले), permalinks `/%postname%/` + `.htaccess`
 - [x] Placeholder images generated (14 jpg, `sp-realtors-core/assets/demo/`)
 - [x] `docker/tools/lint.sh` — PHP 7.4 + 8.2 syntax check
 
-### Phase 2 — Plugin core `[~]` (code पूर्ण, `php -l` pass; WordPress मध्ये test बाकी)
+### Phase 2 — Plugin core `[x]` (WordPress 7.1 वर tested)
 - [x] main file + constants + loader + textdomain
 - [x] CPTs (property, testimonial, enquiry) + taxonomies + term meta
 - [x] meta register + meta boxes (tabs) + save + gallery uploader
 - [x] admin columns + filters (+ ★ featured AJAX toggle, enquiry count badge)
 - [x] activation/deactivation/uninstall
 - [x] helpers.php API
-- [ ] Docker वर activate करून admin मध्ये test
+- [x] Docker वर activate + smoke tests (48/48 pass). Admin screens browser मध्ये user ने पाहणे बाकी.
 
-### Phase 3 — Plugin front features `[ ]`
+### Phase 3 — Plugin front features `[x]`
 - [x] query filters + AJAX load more
 - [x] enquiry handler + enquiry CPT + mail
 - [x] shortcodes + fallback templates (+ fallback CSS, wpml-config.xml)
 - [x] structured data
 - [x] settings page + business customizer section
 - [x] demo import/remove
-- [ ] WordPress मध्ये end-to-end test (Phase 2 + 3 एकत्र)
+- [x] End-to-end HTTP tests: archive filters (9 cases), tax archive, search, JSON-LD, AJAX Load More (+ bad nonce 403), enquiry (sent / rate / expired / bot / invalid / contact), Mailpit mail, debug.log clean
 
 ### Phase 4 — Theme base `[ ]`
 - [ ] style.css, functions.php, setup, enqueue, plugin-notice

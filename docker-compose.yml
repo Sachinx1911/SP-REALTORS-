@@ -72,6 +72,7 @@ services:
       - ./sp-realtors:/var/www/html/wp-content/themes/sp-realtors
       - ./sp-realtors-child:/var/www/html/wp-content/themes/sp-realtors-child
       - ./docker/mu-plugins:/var/www/html/wp-content/mu-plugins
+      - ./docker/tests:/tests:ro   # wp eval-file /tests/xyz.php
     entrypoint: ["tail", "-f", "/dev/null"]  # चालू ठेवते; commands `docker compose exec wpcli wp ...` ने चालवा
 
   mailpit:
