@@ -1,0 +1,6 @@
+# सगळ्या text files LF line endings ने (Docker/Linux server वर अडचण नको)
+* text=auto eol=lf
+*.jpg binary
+*.png binary
+*.woff2 binary
+*.mo binary

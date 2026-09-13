@@ -1,0 +1,11 @@
+# Local dev files — live site वर जाणार नाहीत
+.env
+/docker/wp-core/
+*.log
+wp-content/debug.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
