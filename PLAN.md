@@ -368,11 +368,13 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 
 > GitHub: https://github.com/Sachinx1911/SP-REALTORS-.git (branch `main`)
 
-### Phase 1 — Environment `[~]` (Docker Desktop engine सुरू होणे बाकी)
+### Phase 1 — Environment `[~]` (फक्त WP install बाकी — user admin account बनवणार)
 - [x] `PLAN.md` project मध्ये copy, `design/` folder
 - [x] `docker-compose.yml`, `.env.example`, mailpit mu-plugin
-- [ ] WP install, permalinks `/%postname%/`  ← Docker चालू झाल्यावर
-- [x] Placeholder image generator script (images Docker मध्ये generate करायच्या)
+- [x] Containers चालू (WordPress core 7.1, MySQL 8, Mailpit, phpMyAdmin)
+- [ ] WP install (user: http://localhost:8080), permalinks `/%postname%/`
+- [x] Placeholder images generated (14 jpg, `sp-realtors-core/assets/demo/`)
+- [x] `docker/tools/lint.sh` — PHP 7.4 + 8.2 syntax check
 
 ### Phase 2 — Plugin core `[~]` (code पूर्ण, `php -l` pass; WordPress मध्ये test बाकी)
 - [x] main file + constants + loader + textdomain
@@ -384,12 +386,13 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 - [ ] Docker वर activate करून admin मध्ये test
 
 ### Phase 3 — Plugin front features `[ ]`
-- [ ] query filters + AJAX load more
-- [ ] enquiry handler + enquiry CPT + mail
-- [ ] shortcodes + fallback templates
-- [ ] structured data
-- [ ] settings page + business customizer section
-- [ ] demo import/remove
+- [x] query filters + AJAX load more
+- [x] enquiry handler + enquiry CPT + mail
+- [x] shortcodes + fallback templates (+ fallback CSS, wpml-config.xml)
+- [x] structured data
+- [x] settings page + business customizer section
+- [x] demo import/remove
+- [ ] WordPress मध्ये end-to-end test (Phase 2 + 3 एकत्र)
 
 ### Phase 4 — Theme base `[ ]`
 - [ ] style.css, functions.php, setup, enqueue, plugin-notice
