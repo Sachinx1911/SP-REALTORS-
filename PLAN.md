@@ -135,8 +135,8 @@ D:\website projects\sp\
 |---|---|---|---|
 | `property_location` | `location` | yes | Kharghar, Panvel, Ulwe, Vashi, Nerul, CBD Belapur, Seawoods, Kamothe, Taloja, Airoli, Ghansoli, Sanpada |
 | `property_type` | `property-type` | yes | Apartment, Villa / Bungalow, Row House, Plot, Shop, Office |
-| `property_purpose` | `purpose` | no | Buy (`buy`), Rent (`rent`) |
-| `property_configuration` | `configuration` | no | 1 RK, 1 BHK, 2 BHK, 3 BHK, 4+ BHK |
+| `property_purpose` | `purpose` | yes (फक्त checkbox UI साठी) | Buy (`buy`), Rent (`rent`) |
+| `property_configuration` | `configuration` | yes (फक्त checkbox UI साठी) | 1 RK, 1 BHK, 2 BHK, 3 BHK, 4+ BHK |
 
 - Taxonomies ला `query_var => false` (आपण स्वतःचे query vars वापरणार — `location[]` array support साठी; rewrite archives तरीही चालतात).
 - `property_location` term meta: `spr_location_image` (attachment ID) — term add/edit form वर media picker ("Areas We Serve" cards साठी).
@@ -366,19 +366,22 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 
 ## 9. Build Phases + Progress Checklist
 
-### Phase 1 — Environment `[ ]`
-- [ ] `PLAN.md` project मध्ये copy, `design/` folder
-- [ ] `docker-compose.yml`, `.env.example`, mailpit mu-plugin
-- [ ] WP install, permalinks `/%postname%/`
-- [ ] Placeholder image generator script
+> GitHub: https://github.com/Sachinx1911/SP-REALTORS-.git (branch `main`)
 
-### Phase 2 — Plugin core `[ ]`
-- [ ] main file + constants + loader + textdomain
-- [ ] CPTs (property, testimonial, enquiry) + taxonomies + term meta
-- [ ] meta register + meta boxes (tabs) + save + gallery uploader
-- [ ] admin columns + filters
-- [ ] activation/deactivation/uninstall
-- [ ] helpers.php API
+### Phase 1 — Environment `[~]` (Docker Desktop engine सुरू होणे बाकी)
+- [x] `PLAN.md` project मध्ये copy, `design/` folder
+- [x] `docker-compose.yml`, `.env.example`, mailpit mu-plugin
+- [ ] WP install, permalinks `/%postname%/`  ← Docker चालू झाल्यावर
+- [x] Placeholder image generator script (images Docker मध्ये generate करायच्या)
+
+### Phase 2 — Plugin core `[~]` (code पूर्ण, `php -l` pass; WordPress मध्ये test बाकी)
+- [x] main file + constants + loader + textdomain
+- [x] CPTs (property, testimonial, enquiry) + taxonomies + term meta
+- [x] meta register + meta boxes (tabs) + save + gallery uploader
+- [x] admin columns + filters (+ ★ featured AJAX toggle, enquiry count badge)
+- [x] activation/deactivation/uninstall
+- [x] helpers.php API
+- [ ] Docker वर activate करून admin मध्ये test
 
 ### Phase 3 — Plugin front features `[ ]`
 - [ ] query filters + AJAX load more
