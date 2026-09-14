@@ -448,10 +448,11 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 - [x] One H1 per page (home, archive, single, about, contact, search)
 - [x] Security grep: no unescaped echo with user input, no raw superglobals without sanitize, no `$wpdb`/`eval`/`extract`/deprecated, all mutation forms nonce'd
 - [x] Console errors: zero; debug.log: empty
-- [ ] (broker/manual) CF7 install → shortcode contact page वर test
-- [ ] (broker/manual) Yoast/Rank Math → duplicate schema/breadcrumbs check
-- [ ] (broker/manual) WooCommerce → shop/product in-layout test
-- [ ] (broker/manual) Caching plugin → forms + load more test
+- [x] CF7 install → shortcode Customizer मधून set → contact page वर CF7 form render, 200 OK, debug.log clean
+- [x] Yoast SEO → no duplicate schema (Yoast: WebPage/BreadcrumbList/WebSite, our: RealEstateListing + RealEstateAgent — separate blocks), breadcrumbs Yoast ला defer होतात (`yoast_breadcrumb()`)
+- [x] WooCommerce → shop 200, product 200, header/footer present, debug.log clean
+- [x] WP Super Cache (WP_CACHE=true) → contact form nonce present, AJAX load more success — forms/AJAX cache-compatible
+- [x] Cleanup: test plugins deactivated + deleted, test product deleted, debug.log clean
 
 ---
 
