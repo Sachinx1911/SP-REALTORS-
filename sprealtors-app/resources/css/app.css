@@ -1,0 +1,207 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* -------------------------------------------------------------------------
+ * SP REALTORS design system — exact tokens from the approved reference.
+ * ---------------------------------------------------------------------- */
+@theme {
+	/* Brand */
+	--color-navy: #092B50;
+	--color-blue: #12579A;
+	--color-green: #12B95A;
+	--color-green-dark: #0A9D4A;
+	--color-gold: #C89A45;
+	--color-gold-dark: #B58A3A;
+	--color-gold-light: #F5EBD6;
+	--color-gold-bg: #F6F3EC;
+
+	/* Neutrals */
+	--color-offwhite: #FAFBFC;
+	--color-lightblue: #F5F9FD;
+	--color-lightgray: #F4F6F8;
+	--color-line: #DDE5EC;
+	--color-ink: #18324D;
+	--color-body: #42566B;
+	--color-muted: #6D7E8E;
+	--color-placeholder: #94A3B3;
+
+	/* Type */
+	--font-sans: 'Inter', Arial, Helvetica, sans-serif;
+	--font-display: 'DM Serif Display', Georgia, serif;
+
+	/* Radius */
+	--radius-btn: 6px;
+	--radius-card: 8px;
+	--radius-lg: 10px;
+
+	/* Shadow */
+	--shadow-soft: 0 2px 12px rgba(9, 43, 80, 0.06);
+	--shadow-hover: 0 5px 20px rgba(9, 43, 80, 0.10);
+
+	/* Layout */
+	--container-site: 1280px;
+}
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		font-family: var(--font-sans);
+		color: var(--color-body);
+		background: #fff;
+		font-size: 15px;
+		line-height: 1.6;
+	}
+
+	h1, h2, h3, h4 {
+		font-family: var(--font-display);
+		color: var(--color-navy);
+		font-weight: 400;
+		line-height: 1.15;
+	}
+
+	/* H3 and smaller headings stay on the UI font per the design system. */
+	h3, h4 {
+		font-family: var(--font-sans);
+		font-weight: 700;
+		color: var(--color-ink);
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-blue);
+		outline-offset: 2px;
+	}
+}
+
+@layer components {
+	.site-container {
+		width: 100%;
+		max-width: var(--container-site);
+		margin-inline: auto;
+		padding-inline: 20px;
+	}
+
+	@media (min-width: 1024px) {
+		.site-container {
+			padding-inline: 80px;
+		}
+	}
+
+	/* Buttons ---------------------------------------------------------- */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		height: 44px;
+		padding-inline: 18px;
+		border-radius: var(--radius-btn);
+		font-size: 14px;
+		font-weight: 700;
+		border: 1px solid transparent;
+		cursor: pointer;
+		white-space: nowrap;
+		transition: background-color .2s, color .2s, border-color .2s;
+	}
+
+	@media (min-width: 1024px) {
+		.btn { height: 42px; }
+	}
+
+	.btn svg { width: 18px; height: 18px; flex: none; }
+
+	.btn-primary { background: var(--color-blue); color: #fff; }
+	.btn-primary:hover { background: #0E4880; }
+
+	.btn-whatsapp { background: var(--color-green); color: #fff; }
+	.btn-whatsapp:hover { background: var(--color-green-dark); }
+
+	.btn-gold { background: var(--color-gold); color: #fff; }
+	.btn-gold:hover { background: var(--color-gold-dark); }
+
+	.btn-outline { background: #fff; border-color: var(--color-blue); color: var(--color-blue); }
+	.btn-outline:hover { background: var(--color-lightblue); }
+
+	.btn-outline-light { background: transparent; border-color: rgba(255,255,255,.45); color: #fff; }
+	.btn-outline-light:hover { border-color: #fff; }
+
+	/* Forms ------------------------------------------------------------ */
+	.field {
+		height: 46px;
+		width: 100%;
+		padding-inline: 12px;
+		border: 1px solid var(--color-line);
+		border-radius: var(--radius-btn);
+		font-size: 14px;
+		color: var(--color-ink);
+		background: #fff;
+	}
+
+	.field::placeholder { color: var(--color-placeholder); }
+	.field:focus { outline: none; border-color: var(--color-blue); }
+
+	textarea.field {
+		height: 130px;
+		padding-block: 12px;
+		resize: vertical;
+	}
+
+	.field-label {
+		display: block;
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--color-ink);
+		margin-bottom: 4px;
+	}
+
+	/* Cards ------------------------------------------------------------ */
+	.card {
+		background: #fff;
+		border: 1px solid var(--color-line);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.card-hover { transition: box-shadow .2s, transform .2s; }
+	.card-hover:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+
+	/* Section helpers -------------------------------------------------- */
+	.section { padding-block: 40px; }
+
+	@media (min-width: 1024px) {
+		.section { padding-block: 56px; }
+	}
+
+	.eyebrow {
+		display: inline-block;
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: .18em;
+		text-transform: uppercase;
+		color: var(--color-gold);
+	}
+
+	.badge {
+		display: inline-flex;
+		align-items: center;
+		padding: 5px 12px;
+		border-radius: 4px;
+		font-size: 11px;
+		font-weight: 700;
+		color: #fff;
+		line-height: 1.2;
+	}
+
+	.badge-sale { background: var(--color-gold); }
+	.badge-rent { background: var(--color-blue); }
+	.badge-available { background: var(--color-green); }
+
+	.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+	.no-scrollbar::-webkit-scrollbar { display: none; }
+}

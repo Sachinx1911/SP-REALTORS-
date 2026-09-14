@@ -1,0 +1,36 @@
+services:
+  app:
+    build: .
+    container_name: spr_laravel
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:80"
+    environment:
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
+
+  db:
+    image: mysql:8
+    container_name: spr_laravel_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: sprealtors
+      MYSQL_USER: sprealtors
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    volumes:
+      - laravel_db:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootsecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  laravel_db:
