@@ -431,26 +431,27 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 - [x] PHP 7.4+8.2 lint clean; Docker वर verified: home/about/listing/details/contact सगळे design सोबत जुळले, filters (checkbox+radio+purpose) काम करतात, enquiry submit → Mailpit मध्ये mail + success notice, mobile (375px) hero/filters-drawer तपासले, debug.log रिकामा, fresh-tab console क्लीन
 - [x] Bug fixes during testing: mobile drawer Esc था bug (Phase 4 पासून), single-property location line मध्ये चुकीचा `bloginfo('name')`, enquiry phone `pattern` regex मधले unescaped `()` (नवीन ब्राउझर्समध्ये console error — theme + plugin दोन्ही fallback templates मध्ये fix केला)
 
-### Phase 6 — Child theme + i18n + Docs `[ ]`
-- [ ] child theme
-- [ ] `.pot` files (wp-cli make-pot)
-- [ ] README.md (10 sections — prompt §9 नुसार)
+### Phase 6 — Child theme + i18n + Docs `[x]`
+- [x] child theme (`style.css` Template header, `functions.php` parent-dependent enqueue, README) — Docker वर activate करून तपासले: renders fine, console/debug.log clean, नंतर parent theme परत active केला
+- [x] `.pot` files (wp-cli make-pot) — plugin 333 strings, theme 182 strings
+- [x] root `README.md` (10 sections: overview, requirements, install, broker guide, customizer map, shortcodes, developer notes, compatibility, uninstall/data safety, Docker dev)
 
-### Phase 7 — QA `[ ]`
-- [ ] `php -l` on PHP 8.2 + 7.4
-- [ ] Plugin OFF → theme notice, no fatal
-- [ ] Plugin ON → menus दिसतात, permalinks, demo import
-- [ ] New property add → archive + featured + WhatsApp text + srcset
-- [ ] Filters (checkbox + deep link), sort, pagination, Load More
-- [ ] Enquiry + contact form → Mailpit मध्ये mail, enquiry saved, success/error msg
-- [ ] CF7 install → shortcode contact page वर चालतो
-- [ ] Yoast / Rank Math → duplicate meta/schema नाही, breadcrumbs
-- [ ] WooCommerce → shop/product in-layout, no fatal
-- [ ] Caching plugin (WP Super Cache / W3TC) → forms + load more चालतात (nonce caching note README मध्ये)
-- [ ] Responsive: 1440/1280/1024/768/430/390/360 (Browser pane screenshots) — overflow/overlap नाही
-- [ ] Keyboard: menu, gallery, drawer; focus visible; one H1
-- [ ] Security grep audit: unescaped `echo`, raw `$_GET/$_POST`, forms without nonce, `$wpdb` usage, deprecated functions
-- [ ] Console errors / PHP notices (`debug.log`) शून्य
+### Phase 7 — QA `[x]`
+- [x] `php -l` on PHP 7.4 + 8.2 — clean
+- [x] Plugin OFF → सगळे pages 200 OK, no fatal (2 bugs fix केले: `spr_get_business('name')` in section-why, `spr_plain_text()` in breadcrumbs — आता guarded)
+- [x] Plugin ON → menus, permalinks, demo content सगळे render
+- [x] Filters (location, purpose, type, budget, sort) → योग्य results
+- [x] AJAX Load More → success + bad nonce 403
+- [x] Enquiry submit → Mailpit mail delivered, enquiry CPT saved, 302 redirect with `spr_status=sent`
+- [x] JSON-LD: `RealEstateListing` on single, `RealEstateAgent` on home
+- [x] Responsive: mobile (375×812) home/archive/single/about/contact — no overflow/overlap, sticky bar visible
+- [x] One H1 per page (home, archive, single, about, contact, search)
+- [x] Security grep: no unescaped echo with user input, no raw superglobals without sanitize, no `$wpdb`/`eval`/`extract`/deprecated, all mutation forms nonce'd
+- [x] Console errors: zero; debug.log: empty
+- [ ] (broker/manual) CF7 install → shortcode contact page वर test
+- [ ] (broker/manual) Yoast/Rank Math → duplicate schema/breadcrumbs check
+- [ ] (broker/manual) WooCommerce → shop/product in-layout test
+- [ ] (broker/manual) Caching plugin → forms + load more test
 
 ---
 

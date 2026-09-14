@@ -355,7 +355,7 @@ function sp_realtors_breadcrumbs() {
 		$list_items[]         = array(
 			'@type'    => 'ListItem',
 			'position' => $i + 1,
-			'name'     => spr_plain_text( $label ),
+			'name'     => sp_realtors_core_active() ? spr_plain_text( $label ) : wp_strip_all_tags( $label ),
 		) + ( $url ? array( 'item' => $url ) : array() );
 
 		if ( $url && ! $is_last ) {

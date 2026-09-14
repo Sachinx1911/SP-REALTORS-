@@ -1,0 +1,791 @@
+# Copyright (C) 2026 SP REALTORS
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: SP Realtors 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/sp-realtors\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-14T09:37:57+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: sp-realtors\n"
+
+#. Theme Name of the theme
+#: style.css
+msgid "SP Realtors"
+msgstr ""
+
+#. Theme URI of the theme
+#. Author URI of the theme
+#: style.css
+msgid "https://sprealtors.in"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "Design/presentation theme for SP REALTORS (Navi Mumbai real-estate broker). All property, location, testimonial and enquiry data lives in the \"SP Realtors Core\" plugin, so nothing is lost if this theme is ever changed. Tagline: Properties · People · Possibilities."
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "SP REALTORS"
+msgstr ""
+
+#: 404.php:14
+#: inc/template-tags.php:345
+msgid "Page not found"
+msgstr ""
+
+#: 404.php:15
+msgid "The page you are looking for does not exist or has moved."
+msgstr ""
+
+#: 404.php:19
+msgid "Back to Home"
+msgstr ""
+
+#: 404.php:23
+msgid "Browse Properties"
+msgstr ""
+
+#: archive-property.php:31
+#: inc/template-tags.php:250
+#: inc/template-tags.php:327
+msgid "Properties"
+msgstr ""
+
+#: archive-property.php:32
+msgid "Explore residential and commercial properties in Navi Mumbai and nearby areas."
+msgstr ""
+
+#: archive-property.php:39
+#: template-parts/filter-sidebar.php:25
+msgid "Filters"
+msgstr ""
+
+#. translators: %s: number of properties found
+#: archive-property.php:57
+#, php-format
+msgid "Showing %s property"
+msgid_plural "Showing %s properties"
+msgstr[0] ""
+msgstr[1] ""
+
+#: archive-property.php:72
+msgid "Sort by:"
+msgstr ""
+
+#: archive-property.php:78
+msgid "Apply"
+msgstr ""
+
+#: archive-property.php:96
+msgid "Load More"
+msgstr ""
+
+#. translators: %s: number of comments
+#: comments.php:21
+#, php-format
+msgid "%s Comment"
+msgid_plural "%s Comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:42
+msgid "Comments are closed."
+msgstr ""
+
+#: footer.php:23
+#: inc/customizer.php:171
+msgid "Footer"
+msgstr ""
+
+#: footer.php:38
+msgid "Contact"
+msgstr ""
+
+#: header.php:21
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:40
+msgid "Primary"
+msgstr ""
+
+#: header.php:58
+msgid "Call us"
+msgstr ""
+
+#: header.php:65
+#: template-parts/mobile-action-bar.php:34
+msgid "WhatsApp"
+msgstr ""
+
+#: header.php:70
+#: inc/enqueue.php:39
+msgid "Menu"
+msgstr ""
+
+#: inc/customizer.php:32
+msgid "SP Realtors Theme"
+msgstr ""
+
+#: inc/customizer.php:82
+msgid "Hero"
+msgstr ""
+
+#: inc/customizer.php:84
+msgid "Eyebrow text"
+msgstr ""
+
+#: inc/customizer.php:85
+#: inc/customizer.php:142
+msgid "Heading"
+msgstr ""
+
+#: inc/customizer.php:86
+msgid "Subtext"
+msgstr ""
+
+#: inc/customizer.php:87
+msgid "Background image"
+msgstr ""
+
+#: inc/customizer.php:94
+msgid "Trust Strip"
+msgstr ""
+
+#. translators: %d: item number
+#: inc/customizer.php:98
+#: inc/customizer.php:129
+#, php-format
+msgid "Item %d"
+msgstr ""
+
+#: inc/customizer.php:99
+#: inc/customizer.php:130
+msgid "Icon"
+msgstr ""
+
+#: inc/customizer.php:100
+#: inc/customizer.php:114
+#: inc/customizer.php:131
+#: inc/customizer.php:162
+msgid "Title"
+msgstr ""
+
+#: inc/customizer.php:101
+#: inc/customizer.php:115
+#: inc/customizer.php:132
+#: inc/customizer.php:143
+#: inc/customizer.php:163
+msgid "Text"
+msgstr ""
+
+#: inc/customizer.php:109
+#: template-parts/section-requirement.php:34
+msgid "Browse by Requirement"
+msgstr ""
+
+#. translators: %d: item number
+#: inc/customizer.php:113
+#, php-format
+msgid "Card %d"
+msgstr ""
+
+#: inc/customizer.php:116
+msgid "Image"
+msgstr ""
+
+#: inc/customizer.php:117
+msgid "Link URL"
+msgstr ""
+
+#: inc/customizer.php:125
+msgid "Why Choose Us"
+msgstr ""
+
+#: inc/customizer.php:140
+msgid "CTA Banner"
+msgstr ""
+
+#: inc/customizer.php:144
+msgid "Button label"
+msgstr ""
+
+#: inc/customizer.php:151
+msgid "About Page"
+msgstr ""
+
+#. translators: %d: item number
+#: inc/customizer.php:155
+#, php-format
+msgid "Stat %d"
+msgstr ""
+
+#: inc/customizer.php:156
+msgid "Number"
+msgstr ""
+
+#: inc/customizer.php:157
+msgid "Label"
+msgstr ""
+
+#. translators: %d: item number
+#: inc/customizer.php:161
+#, php-format
+msgid "Step %d"
+msgstr ""
+
+#: inc/customizer.php:173
+msgid "Tagline"
+msgstr ""
+
+#: inc/customizer.php:174
+msgid "Copyright text"
+msgstr ""
+
+#: inc/customizer.php:204
+msgid "Colors"
+msgstr ""
+
+#: inc/customizer.php:207
+#: inc/setup.php:50
+msgid "Navy"
+msgstr ""
+
+#: inc/customizer.php:208
+#: inc/setup.php:55
+msgid "Blue"
+msgstr ""
+
+#: inc/customizer.php:209
+msgid "Green (conversion buttons only)"
+msgstr ""
+
+#: inc/customizer.php:210
+msgid "Gold (accents only)"
+msgstr ""
+
+#: inc/customizer.php:239
+msgid "Mobile"
+msgstr ""
+
+#: inc/customizer.php:244
+msgid "Show sticky Call / WhatsApp bar on mobile"
+msgstr ""
+
+#: inc/customizer.php:254
+msgid "Contact Page"
+msgstr ""
+
+#: inc/customizer.php:259
+msgid "Form shortcode override"
+msgstr ""
+
+#: inc/customizer.php:262
+msgid "Leave empty to use the built-in enquiry form. E.g. paste a Contact Form 7 shortcode."
+msgstr ""
+
+#: inc/customizer.php:267
+msgid "Map embed URL"
+msgstr ""
+
+#: inc/enqueue.php:37
+msgid "Loading…"
+msgstr ""
+
+#: inc/enqueue.php:38
+msgid "No more properties."
+msgstr ""
+
+#: inc/enqueue.php:40
+msgid "Close"
+msgstr ""
+
+#: inc/plugin-notice.php:40
+msgid "SP Realtors theme works best with the \"SP Realtors Core\" plugin active — it powers properties, locations, testimonials and enquiries. Without it, those sections are hidden but the rest of the site keeps working."
+msgstr ""
+
+#: inc/setup.php:60
+msgid "Green"
+msgstr ""
+
+#: inc/setup.php:65
+msgid "Gold"
+msgstr ""
+
+#: inc/setup.php:70
+msgid "Off-white"
+msgstr ""
+
+#: inc/setup.php:75
+msgid "Charcoal"
+msgstr ""
+
+#: inc/setup.php:80
+msgid "Muted"
+msgstr ""
+
+#: inc/setup.php:91
+msgid "Small"
+msgstr ""
+
+#: inc/setup.php:96
+msgid "Normal"
+msgstr ""
+
+#: inc/setup.php:101
+msgid "Large"
+msgstr ""
+
+#: inc/setup.php:106
+msgid "Extra Large"
+msgstr ""
+
+#: inc/setup.php:115
+msgid "Primary Menu"
+msgstr ""
+
+#: inc/setup.php:116
+msgid "Footer Menu"
+msgstr ""
+
+#: inc/setup.php:142
+msgid "Footer Column 1"
+msgstr ""
+
+#: inc/setup.php:144
+msgid "Widgets shown in the first footer column."
+msgstr ""
+
+#: inc/setup.php:153
+msgid "Footer Column 2"
+msgstr ""
+
+#: inc/setup.php:155
+msgid "Widgets shown in the second footer column."
+msgstr ""
+
+#: inc/setup.php:164
+msgid "Blog Sidebar"
+msgstr ""
+
+#: inc/setup.php:166
+msgid "Widgets shown next to blog posts and pages."
+msgstr ""
+
+#: inc/setup.php:185
+msgid "Security"
+msgstr ""
+
+#: inc/setup.php:188
+msgid "Car Parking"
+msgstr ""
+
+#: inc/template-tags.php:24
+msgid "A Better Tomorrow Starts Here"
+msgstr ""
+
+#: inc/template-tags.php:25
+msgid "Find Your Perfect Property"
+msgstr ""
+
+#: inc/template-tags.php:26
+msgid "Residential & Commercial Properties in Navi Mumbai and surrounding areas."
+msgstr ""
+
+#: inc/template-tags.php:29
+msgid "Looking for a Property?"
+msgstr ""
+
+#: inc/template-tags.php:30
+msgid "Tell us your requirement and we'll help you find the right option."
+msgstr ""
+
+#: inc/template-tags.php:31
+msgid "WhatsApp Us"
+msgstr ""
+
+#: inc/template-tags.php:33
+msgid "Properties · People · Possibilities"
+msgstr ""
+
+#: inc/template-tags.php:34
+msgid "SP REALTORS. All rights reserved."
+msgstr ""
+
+#: inc/template-tags.php:48
+#: inc/template-tags.php:84
+msgid "Verified Properties"
+msgstr ""
+
+#: inc/template-tags.php:48
+#: inc/template-tags.php:84
+msgid "Genuine listings"
+msgstr ""
+
+#: inc/template-tags.php:49
+msgid "Local Expertise"
+msgstr ""
+
+#: inc/template-tags.php:49
+#: inc/template-tags.php:85
+msgid "In-depth knowledge"
+msgstr ""
+
+#: inc/template-tags.php:50
+#: inc/template-tags.php:86
+msgid "Transparent Deals"
+msgstr ""
+
+#: inc/template-tags.php:50
+#: inc/template-tags.php:86
+msgid "Clear and honest guidance"
+msgstr ""
+
+#: inc/template-tags.php:51
+#: inc/template-tags.php:87
+msgid "Complete Assistance"
+msgstr ""
+
+#: inc/template-tags.php:51
+#: inc/template-tags.php:87
+msgid "From search to final deal"
+msgstr ""
+
+#: inc/template-tags.php:61
+msgid "Buy Property"
+msgstr ""
+
+#: inc/template-tags.php:61
+msgid "Find your dream home"
+msgstr ""
+
+#: inc/template-tags.php:62
+msgid "Rent Property"
+msgstr ""
+
+#: inc/template-tags.php:62
+msgid "Homes & offices for rent"
+msgstr ""
+
+#: inc/template-tags.php:63
+msgid "Residential"
+msgstr ""
+
+#: inc/template-tags.php:63
+msgid "Apartments, Villas & More"
+msgstr ""
+
+#: inc/template-tags.php:64
+msgid "Commercial"
+msgstr ""
+
+#: inc/template-tags.php:64
+msgid "Office, Shop, Showroom & More"
+msgstr ""
+
+#: inc/template-tags.php:85
+msgid "Local Market Expertise"
+msgstr ""
+
+#: inc/template-tags.php:98
+msgid "Happy Clients"
+msgstr ""
+
+#: inc/template-tags.php:99
+msgid "Properties Sold"
+msgstr ""
+
+#: inc/template-tags.php:100
+msgid "Years of Experience"
+msgstr ""
+
+#: inc/template-tags.php:101
+msgid "Navi Mumbai"
+msgstr ""
+
+#: inc/template-tags.php:101
+msgid "Our Focus Region"
+msgstr ""
+
+#: inc/template-tags.php:110
+msgid "Understand Your Needs"
+msgstr ""
+
+#: inc/template-tags.php:111
+msgid "Share Best Options"
+msgstr ""
+
+#: inc/template-tags.php:112
+msgid "Site Visits & Comparisons"
+msgstr ""
+
+#: inc/template-tags.php:113
+msgid "Support Till Final Deal"
+msgstr ""
+
+#: inc/template-tags.php:147
+msgid "Check"
+msgstr ""
+
+#: inc/template-tags.php:148
+msgid "Shield"
+msgstr ""
+
+#: inc/template-tags.php:149
+msgid "Award"
+msgstr ""
+
+#: inc/template-tags.php:150
+msgid "Users"
+msgstr ""
+
+#: inc/template-tags.php:151
+msgid "Clock"
+msgstr ""
+
+#: inc/template-tags.php:152
+#: inc/template-tags.php:248
+#: inc/template-tags.php:324
+msgid "Home"
+msgstr ""
+
+#: inc/template-tags.php:153
+msgid "Key"
+msgstr ""
+
+#: inc/template-tags.php:154
+msgid "Star"
+msgstr ""
+
+#: inc/template-tags.php:155
+msgid "Headset (support)"
+msgstr ""
+
+#: inc/template-tags.php:268
+msgid "Facebook"
+msgstr ""
+
+#: inc/template-tags.php:269
+msgid "Instagram"
+msgstr ""
+
+#: inc/template-tags.php:270
+msgid "YouTube"
+msgstr ""
+
+#: inc/template-tags.php:271
+msgid "LinkedIn"
+msgstr ""
+
+#: inc/template-tags.php:272
+msgid "X (Twitter)"
+msgstr ""
+
+#: inc/template-tags.php:316
+#: inc/template-tags.php:350
+msgid "Breadcrumb"
+msgstr ""
+
+#. translators: %s: search query
+#: inc/template-tags.php:343
+#, php-format
+msgid "Search results for “%s”"
+msgstr ""
+
+#: inc/template-tags.php:389
+msgid "by"
+msgstr ""
+
+#: page-contact-us.php:40
+msgid "Call Us"
+msgstr ""
+
+#: page-contact-us.php:49
+msgid "Email Us"
+msgstr ""
+
+#: page-contact-us.php:58
+msgid "Visit Our Office"
+msgstr ""
+
+#: page-contact-us.php:67
+msgid "Working Hours"
+msgstr ""
+
+#: page-contact-us.php:84
+msgid "Send Us a Message"
+msgstr ""
+
+#: page-contact-us.php:85
+msgid "Send Message"
+msgstr ""
+
+#: page-contact-us.php:95
+msgid "Our office location"
+msgstr ""
+
+#. translators: %s: search query
+#: search.php:20
+#, php-format
+msgid "Search results for: %s"
+msgstr ""
+
+#: searchform.php:14
+msgid "Search for:"
+msgstr ""
+
+#: searchform.php:16
+msgid "Search…"
+msgstr ""
+
+#: searchform.php:18
+msgid "Search"
+msgstr ""
+
+#: sidebar.php:14
+msgid "Blog sidebar"
+msgstr ""
+
+#. translators: %d: bedrooms
+#: single-property.php:59
+#, php-format
+msgid "%d Bedroom"
+msgid_plural "%d Bedrooms"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: bathrooms
+#: single-property.php:62
+#, php-format
+msgid "%d Bathroom"
+msgid_plural "%d Bathrooms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: single-property.php:72
+msgid "Property Highlights"
+msgstr ""
+
+#: single-property.php:83
+msgid "Description"
+msgstr ""
+
+#: single-property.php:90
+msgid "Amenities"
+msgstr ""
+
+#: single-property.php:104
+#: template-parts/filter-sidebar.php:89
+msgid "Location"
+msgstr ""
+
+#: single-property.php:111
+msgid "View on Google Maps"
+msgstr ""
+
+#: single-property.php:122
+msgid "Related Properties"
+msgstr ""
+
+#: single-property.php:145
+msgid "Enquire About This Property"
+msgstr ""
+
+#. translators: %s: search query
+#: template-parts/content-none.php:16
+#, php-format
+msgid "No results found for “%s”. Try a different search."
+msgstr ""
+
+#: template-parts/content-none.php:23
+msgid "Nothing found here yet."
+msgstr ""
+
+#: template-parts/enquiry-form.php:38
+msgid "Your Name"
+msgstr ""
+
+#: template-parts/enquiry-form.php:43
+msgid "Phone Number"
+msgstr ""
+
+#: template-parts/enquiry-form.php:49
+msgid "Email (optional)"
+msgstr ""
+
+#: template-parts/enquiry-form.php:57
+msgid "Your Requirement"
+msgstr ""
+
+#: template-parts/enquiry-form.php:57
+msgid "Your Message"
+msgstr ""
+
+#: template-parts/enquiry-form.php:67
+msgid "Send on WhatsApp"
+msgstr ""
+
+#: template-parts/enquiry-form.php:72
+msgid "Call Now"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:26
+msgid "Close filters"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:33
+msgid "I want to"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:47
+msgid "Property Type"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:48
+msgid "Configuration"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:72
+msgid "Budget"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:75
+msgid "Any budget"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:100
+msgid "Apply Filters"
+msgstr ""
+
+#: template-parts/filter-sidebar.php:102
+msgid "Clear All"
+msgstr ""
+
+#: template-parts/mobile-action-bar.php:28
+msgid "Call"
+msgstr ""
+
+#: template-parts/section-approach.php:32
+msgid "Our Approach"
+msgstr ""
+
+#: template-parts/section-featured.php:22
+msgid "Featured Properties"
+msgstr ""
+
+#: template-parts/section-featured.php:24
+msgid "View All Properties"
+msgstr ""
+
+#. translators: site title used in the About page "Why Choose Us" heading
+#: template-parts/section-why.php:32
+#, php-format
+msgid "Why Choose %s?"
+msgstr ""

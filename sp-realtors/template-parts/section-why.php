@@ -29,7 +29,11 @@ if ( ! $sp_items ) {
 		<div class="sp-realtors-section__header">
 			<?php
 			/* translators: site title used in the About page "Why Choose Us" heading */
-			printf( '<h2>%s</h2>', esc_html( sprintf( __( 'Why Choose %s?', 'sp-realtors' ), spr_get_business( 'name' ) ) ) );
+			$sp_biz_name = sp_realtors_core_active() ? spr_get_business( 'name' ) : '';
+				if ( '' === $sp_biz_name ) {
+					$sp_biz_name = get_bloginfo( 'name' );
+				}
+				printf( '<h2>%s</h2>', esc_html( sprintf( __( 'Why Choose %s?', 'sp-realtors' ), $sp_biz_name ) ) );
 			?>
 		</div>
 
