@@ -36,7 +36,7 @@ $spr_status = isset( $args['status'] ) ? $args['status'] : array();
 
 		<p class="spr-enquiry__field">
 			<label for="<?php echo esc_attr( $spr_uid ); ?>-phone"><?php esc_html_e( 'Phone number', 'sp-realtors-core' ); ?> <span aria-hidden="true">*</span></label>
-			<input type="tel" id="<?php echo esc_attr( $spr_uid ); ?>-phone" name="spr_phone" required pattern="[0-9+\-\s()]{10,20}" inputmode="tel" autocomplete="tel">
+			<input type="tel" id="<?php echo esc_attr( $spr_uid ); ?>-phone" name="spr_phone" required pattern="[0-9+\-\s\(\)]{10,20}" inputmode="tel" autocomplete="tel">
 		</p>
 
 		<?php if ( ! empty( $args['show_email'] ) ) : ?>

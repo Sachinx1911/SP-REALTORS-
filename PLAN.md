@@ -376,6 +376,13 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 - Admin user `SPREALTORS` (user ने बनवला; password मी वापरत नाही)
 - Dev मध्ये `spr_business` मध्ये **fake** WhatsApp `910000000000` / phone `+91 00000 00000` टाकले आहेत (buttons test करण्यासाठी) — launch आधी broker चे खरे number Customizer मधून टाकायचे
 - Mailpit: http://localhost:8025 (सगळे mail इथे येतात, खऱ्या inbox मध्ये जात नाहीत)
+- `admin_email` / `spr_business.email` / `spr_settings.enquiry_email` dev मध्ये `dev@sprealtors.local` — कधीही खरा personal email इथे टाकू नये (public footer + schema मध्ये दिसतो)
+- Theme active आहे, demo content import केलेला आहे (6 properties, 3 testimonials, front page + about-us set)
+
+### Phase 4 dev notes
+- `index.php` सध्या property post type साठी पण generic blog loop वापरतो (उगाच ओबडधोबड दिसतं) — Phase 5 चा `archive-property.php` + `template-parts/card-property.php` हे बदलेल.
+- `assets/fonts/` रिकामे आहे — सध्या system font stack fallback वापरतोय (योजना §12 प्रमाणे). खरे Inter/Playfair Display woff2 हवे असल्यास पुढच्या session मध्ये download साठी परवानगी विचारायची.
+- `screenshot.png` आणि `.pot` files अजून नाहीत (Phase 6).
 
 ### Phase 1 — Environment `[x]`
 - [x] `PLAN.md` project मध्ये copy, `design/` folder
@@ -403,19 +410,26 @@ image (`spr-card`, lazy, srcset) + status badge · title (link) · location icon
 - [x] demo import/remove
 - [x] End-to-end HTTP tests: archive filters (9 cases), tax archive, search, JSON-LD, AJAX Load More (+ bad nonce 403), enquiry (sent / rate / expired / bot / invalid / contact), Mailpit mail, debug.log clean
 
-### Phase 4 — Theme base `[ ]`
-- [ ] style.css, functions.php, setup, enqueue, plugin-notice
-- [ ] header/footer, nav, skip-link, mobile bar
-- [ ] main.css tokens + base + components
-- [ ] customizer + template-tags + breadcrumbs
+### Phase 4 — Theme base `[x]`
+- [x] style.css, functions.php, setup, enqueue, plugin-notice
+- [x] header/footer, nav, skip-link, mobile bar
+- [x] main.css tokens + base + components
+- [x] customizer + template-tags + breadcrumbs
+- [x] PHP 7.4 + 8.2 lint clean, theme activates, no fatals with/without plugin
+- [x] Docker वर verified: header/footer/mobile nav (Esc + focus return fixed), breadcrumbs, WhatsApp/Call buttons, demo content + menus render, debug.log clean, console errors नाहीत
 
-### Phase 5 — Theme pages `[ ]` (design image आवश्यक)
-- [ ] front-page + सगळे sections
-- [ ] archive + filter sidebar/drawer + load more
-- [ ] single property + gallery + enquiry card
-- [ ] about, contact, page, index, search, 404, comments, sidebar
-- [ ] taxonomy-location, woocommerce wrapper
-- [ ] main.js modules, editor-style.css, screenshot.png
+### Phase 5 — Theme pages `[x]` (design image वरून — 2026-09-14 share केलेला mockup: Home/About/Listing/Details/Contact/Mobile)
+- [x] front-page + sections (hero+search, trust, featured, requirement, CTA)
+- [x] archive + filter sidebar/drawer + load more (purpose tabs, ptype/config/location checkboxes, budget radios, sort, AJAX load more, desktop auto-submit)
+- [x] single property + gallery (thumb swap, keyboard) + sticky enquiry card (Send on WhatsApp + Call Now)
+- [x] about-us (hero+content, stats, approach, why) + contact-us (info cards + form + map)
+- [x] index, page, search, 404, comments, sidebar, searchform (functional baseline, not individually design-matched — no design screen given for these)
+- [x] taxonomy-property_location (reuses archive-property.php)
+- [x] woocommerce wrapper (Phase 4 मध्येच झाला होता, guarded)
+- [x] main.js modules: nav toggle, purpose→budget optgroup swap, filter drawer + auto-submit, sort auto-submit, AJAX load more, gallery keyboard nav
+- [ ] editor-style.css आहे (Phase 4), screenshot.png अजून नाही (visual only, blocking नाही)
+- [x] PHP 7.4+8.2 lint clean; Docker वर verified: home/about/listing/details/contact सगळे design सोबत जुळले, filters (checkbox+radio+purpose) काम करतात, enquiry submit → Mailpit मध्ये mail + success notice, mobile (375px) hero/filters-drawer तपासले, debug.log रिकामा, fresh-tab console क्लीन
+- [x] Bug fixes during testing: mobile drawer Esc था bug (Phase 4 पासून), single-property location line मध्ये चुकीचा `bloginfo('name')`, enquiry phone `pattern` regex मधले unescaped `()` (नवीन ब्राउझर्समध्ये console error — theme + plugin दोन्ही fallback templates मध्ये fix केला)
 
 ### Phase 6 — Child theme + i18n + Docs `[ ]`
 - [ ] child theme
