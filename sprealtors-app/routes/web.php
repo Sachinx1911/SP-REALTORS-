@@ -55,7 +55,7 @@ Route::post('/admin/logout', [LoginController::class, 'destroy'])
 /* -------------------------------------------------------------------------
  * Admin panel
  * ---------------------------------------------------------------------- */
-Route::middleware(['auth', 'admin'])
+Route::middleware(['auth', 'panel'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -82,10 +82,13 @@ Route::middleware(['auth', 'admin'])
         Route::patch('enquiries/{enquiry}', [AdminEnquiryController::class, 'update'])->name('enquiries.update');
         Route::delete('enquiries/{enquiry}', [AdminEnquiryController::class, 'destroy'])->name('enquiries.destroy');
 
-        Route::resource('users', AdminUserController::class)
-            ->except('show')
-            ->parameters(['users' => 'user:id']);
+        // Team & Settings: full Admins only — Managers are blocked here.
+        Route::middleware('admin')->group(function () {
+            Route::resource('users', AdminUserController::class)
+                ->except('show')
+                ->parameters(['users' => 'user:id']);
 
-        Route::get('settings', [AdminSettingController::class, 'edit'])->name('settings.edit');
-        Route::put('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+            Route::get('settings', [AdminSettingController::class, 'edit'])->name('settings.edit');
+            Route::put('settings', [AdminSettingController::class, 'update'])->name('settings.update');
+        });
     });

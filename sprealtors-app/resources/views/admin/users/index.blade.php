@@ -38,6 +38,10 @@
 										<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] bg-lightblue text-blue text-[11px] font-bold">
 											<x-icon name="shield" class="w-3 h-3" /> Admin
 										</span>
+									@elseif($user->isManager())
+										<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] bg-gold/15 text-gold text-[11px] font-bold">
+											<x-icon name="users" class="w-3 h-3" /> Manager
+										</span>
 									@else
 										<span class="inline-flex items-center px-2.5 py-1 rounded-[4px] bg-lightgray text-muted text-[11px] font-bold">No access</span>
 									@endif

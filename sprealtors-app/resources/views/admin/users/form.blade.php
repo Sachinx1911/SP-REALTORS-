@@ -26,9 +26,9 @@
 				<x-admin.field name="password_confirmation" label="Confirm Password" type="password"
 				               :required="! $isEdit" />
 
-				<x-admin.field name="is_admin" label="Admin Access" type="checkbox"
-				               :value="$user->is_admin" placeholder="Can log into this admin panel"
-				               help="Team members without this ticked cannot sign in at all — there is no other account type yet." />
+				<x-admin.field name="role" label="Role" type="select" :value="$user->role" required
+				               :options="\App\Models\User::roleOptions()"
+				               help="Manager: properties, projects, locations, testimonials & enquiries. Admin: also Team & Settings." />
 			</div>
 		</section>
 

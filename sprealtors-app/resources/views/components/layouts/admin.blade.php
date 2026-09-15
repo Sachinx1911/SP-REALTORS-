@@ -8,9 +8,13 @@
         ['label' => 'Locations', 'icon' => 'map-pin', 'route' => 'admin.locations.index', 'active' => request()->routeIs('admin.locations.*')],
         ['label' => 'Testimonials', 'icon' => 'quote', 'route' => 'admin.testimonials.index', 'active' => request()->routeIs('admin.testimonials.*')],
         ['label' => 'Enquiries', 'icon' => 'inbox', 'route' => 'admin.enquiries.index', 'active' => request()->routeIs('admin.enquiries.*')],
-        ['label' => 'Team', 'icon' => 'users', 'route' => 'admin.users.index', 'active' => request()->routeIs('admin.users.*')],
-        ['label' => 'Settings', 'icon' => 'settings', 'route' => 'admin.settings.edit', 'active' => request()->routeIs('admin.settings.*')],
     ];
+
+    // Team & Settings are only reachable by full Admins — hide the links entirely for Managers.
+    if (auth()->user()?->isAdmin()) {
+        $nav[] = ['label' => 'Team', 'icon' => 'users', 'route' => 'admin.users.index', 'active' => request()->routeIs('admin.users.*')];
+        $nav[] = ['label' => 'Settings', 'icon' => 'settings', 'route' => 'admin.settings.edit', 'active' => request()->routeIs('admin.settings.*')];
+    }
 @endphp
 
 <!DOCTYPE html>

@@ -21,18 +21,13 @@ class AdminUserController extends Controller
     public function create(): View
     {
         return view('admin.users.form', [
-            'user' => new User(['is_admin' => true]),
+            'user' => new User(['role' => User::ROLE_MANAGER]),
         ]);
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:120'],
-            'email' => ['required', 'email', 'max:180', Rule::unique('users', 'email')],
-            'password' => ['required', 'confirmed', 'string', 'min:8'],
-            'is_admin' => ['boolean'],
-        ]);
+        $data = $this->validated($request);
 
         $user = User::create([
             'name' => $data['name'],
@@ -40,8 +35,8 @@ class AdminUserController extends Controller
             'password' => $data['password'],
         ]);
 
-        // is_admin is deliberately not in User::$fillable — set it explicitly, same as the seeder.
-        $user->forceFill(['is_admin' => $request->boolean('is_admin')])->save();
+        // role is deliberately not in User::$fillable — set it explicitly, same as the seeder.
+        $user->forceFill(['role' => $data['role']])->save();
 
         return redirect()
             ->route('admin.users.index')
@@ -55,17 +50,12 @@ class AdminUserController extends Controller
 
     public function update(Request $request, User $user): RedirectResponse
     {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:120'],
-            'email' => ['required', 'email', 'max:180', Rule::unique('users', 'email')->ignore($user->id)],
-            'password' => ['nullable', 'confirmed', 'string', 'min:8'],
-            'is_admin' => ['boolean'],
-        ]);
+        $data = $this->validated($request, $user);
 
-        if ($this->wouldRemoveLastAdmin($user, $request->boolean('is_admin'))) {
+        if ($this->wouldRemoveLastAdmin($user, $data['role'])) {
             return back()
                 ->withInput()
-                ->withErrors(['is_admin' => 'At least one admin account must remain — cannot remove admin access here.']);
+                ->withErrors(['role' => 'At least one Admin account must remain — change someone else to Admin first.']);
         }
 
         $user->name = $data['name'];
@@ -77,7 +67,7 @@ class AdminUserController extends Controller
         }
 
         $user->save();
-        $user->forceFill(['is_admin' => $request->boolean('is_admin')])->save();
+        $user->forceFill(['role' => $data['role']])->save();
 
         $message = $user->id === $request->user()->id
             ? 'Your account was updated.'
@@ -92,8 +82,8 @@ class AdminUserController extends Controller
             return back()->withErrors(['user' => 'You cannot delete your own account while logged in.']);
         }
 
-        if ($this->wouldRemoveLastAdmin($user, false)) {
-            return back()->withErrors(['user' => 'At least one admin account must remain — cannot delete the last admin.']);
+        if ($this->wouldRemoveLastAdmin($user, null)) {
+            return back()->withErrors(['user' => 'At least one Admin account must remain — cannot delete the last Admin.']);
         }
 
         $user->delete();
@@ -102,15 +92,34 @@ class AdminUserController extends Controller
     }
 
     /**
-     * True if setting $user's admin flag to $newValue would leave zero admins.
+     * @return array<string, mixed>
      */
-    private function wouldRemoveLastAdmin(User $user, bool $newValue): bool
+    private function validated(Request $request, ?User $user = null): array
     {
-        if ($newValue || ! $user->isAdmin()) {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:120'],
+            'email' => ['required', 'email', 'max:180', Rule::unique('users', 'email')->ignore($user?->id)],
+            'password' => [$user ? 'nullable' : 'required', 'confirmed', 'string', 'min:8'],
+            'role' => ['required', Rule::in(array_keys(User::roleOptions()))],
+        ]);
+
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        return $data;
+    }
+
+    /**
+     * True if setting $user's role to $newRole (null = deleting) would leave zero Admins.
+     */
+    private function wouldRemoveLastAdmin(User $user, ?string $newRole): bool
+    {
+        if ($newRole === User::ROLE_ADMIN || ! $user->isAdmin()) {
             return false;
         }
 
-        $otherAdmins = User::where('is_admin', true)->where('id', '!=', $user->id)->count();
+        $otherAdmins = User::where('role', User::ROLE_ADMIN)->where('id', '!=', $user->id)->count();
 
         return $otherAdmins === 0;
     }

@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // Set outside the fillable payload — see User::$fillable.
-        $admin->forceFill(['is_admin' => true])->save();
+        $admin->forceFill(['role' => User::ROLE_ADMIN])->save();
 
         $this->call([
             SettingSeeder::class,

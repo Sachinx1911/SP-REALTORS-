@@ -31,13 +31,13 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        if (! $request->user()->isAdmin()) {
+        if (! $request->user()->hasAccess()) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
             throw ValidationException::withMessages([
-                'email' => 'This account does not have admin access.',
+                'email' => 'This account does not have admin panel access.',
             ]);
         }
 
