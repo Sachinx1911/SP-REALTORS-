@@ -8,8 +8,8 @@
 @endphp
 
 <footer class="bg-white border-t border-line mt-0">
-	<div class="site-container py-10 lg:py-12">
-		<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
+	<div class="site-container py-7 lg:py-8">
+		<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
 
 			{{-- Brand --}}
 			<div>
@@ -22,7 +22,7 @@
 				</div>
 
 				@if($socials)
-					<div class="flex gap-3 mt-5">
+					<div class="flex gap-3 mt-3">
 						@foreach($socials as $network => $url)
 							<a href="{{ $url }}" target="_blank" rel="noopener"
 							   class="w-9 h-9 rounded-full bg-lightgray text-blue flex items-center justify-center hover:bg-lightblue transition-colors">
@@ -59,7 +59,7 @@
 	</div>
 
 	<div class="border-t border-line">
-		<div class="site-container py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[12px] text-muted">
+		<div class="site-container py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[12px] text-muted">
 			<p>&copy; {{ date('Y') }} {{ setting('site_name') }}. All Rights Reserved.</p>
 			<p>Building Better Tomorrows.</p>
 		</div>
