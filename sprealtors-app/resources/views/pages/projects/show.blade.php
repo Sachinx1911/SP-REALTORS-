@@ -69,11 +69,19 @@
 				</ul>
 
 				<div class="flex flex-col gap-2 mt-5">
-					@if($project->brochureUrl())
-						<a href="{{ $project->brochureUrl() }}" target="_blank" rel="noopener" class="btn btn-outline w-full">
-							<x-icon name="download" class="w-[18px] h-[18px]" />
-							Download Brochure
-						</a>
+					@if($project->hasBrochure())
+						@if(session()->get($project->brochureUnlockKey()))
+							{{-- Details already given this session — straight to the file. --}}
+							<a href="{{ route('projects.brochure.download', $project) }}" class="btn btn-outline w-full">
+								<x-icon name="download" class="w-[18px] h-[18px]" />
+								Download Brochure
+							</a>
+						@else
+							<button type="button" data-modal-open="brochure-modal" class="btn btn-outline w-full">
+								<x-icon name="download" class="w-[18px] h-[18px]" />
+								Download Brochure
+							</button>
+						@endif
 					@endif
 					<a href="#enquiry" class="btn btn-gold w-full">Enquire Now</a>
 					<a href="{{ $project->whatsappUrl() }}" target="_blank" rel="noopener" class="btn btn-whatsapp w-full">
@@ -105,10 +113,15 @@
 								<div class="card p-4">
 									<strong class="block text-[16px] text-ink">{{ $config['type'] ?? '' }}</strong>
 									@if(! empty($config['area']))
-										<small class="block text-[12px] text-muted mt-0.5">{{ $config['area'] }}</small>
+										<small class="block text-[12px] text-muted mt-0.5">
+											{{ $config['area'] }}@if(! empty($config['area_type'])) · {{ $config['area_type'] }}@endif
+										</small>
 									@endif
 									@if(! empty($config['price']))
 										<p class="text-[16px] font-bold text-blue mt-2 mb-0">{{ $config['price'] }}</p>
+										<small class="block text-[11px] {{ ! empty($config['all_inclusive']) ? 'text-green-dark font-semibold' : 'text-muted' }}">
+											{{ ! empty($config['all_inclusive']) ? 'All inclusive' : 'Excl. taxes & charges' }}
+										</small>
 									@endif
 								</div>
 							@endforeach
@@ -239,6 +252,17 @@
 			</aside>
 		</div>
 	</div>
+
+	{{-- Brochure is only released after the visitor shares their details. --}}
+	@if($project->hasBrochure() && ! session()->get($project->brochureUnlockKey()))
+		<x-lead-modal
+			id="brochure-modal"
+			:action="route('projects.brochure.request', $project)"
+			source="brochure"
+			title="Download the brochure"
+			:text="'Tell us where to reach you and the '.$project->name.' brochure will download right away.'"
+			button-label="Download Brochure" />
+	@endif
 
 	<x-slot:sticky-cta>
 		<x-mobile-sticky-cta

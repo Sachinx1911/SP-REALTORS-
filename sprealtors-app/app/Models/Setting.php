@@ -81,6 +81,34 @@ class Setting extends Model
             'stat_4_label' => 'Our Focus Region',
             'seo_title' => 'SP REALTORS — Trusted Real Estate Partner in Navi Mumbai',
             'seo_description' => 'Buy, rent or invest in residential and commercial properties across Navi Mumbai with expert guidance from SP REALTORS.',
+
+            // Dropdown choices for project configuration rows. One per line —
+            // the broker can add or remove options from Admin → Settings.
+            'config_unit_types' => implode("\n", [
+                '1 RK', '1 BHK', '2 BHK', '3 BHK', '4 BHK', '5 BHK',
+                'Duplex', 'Penthouse', 'Villa', 'Row House',
+                'Shop', 'Office', 'Showroom', 'Plot',
+            ]),
+            'config_area_types' => implode("\n", [
+                'Carpet Area', 'Built-up Area', 'Super Built-up Area',
+                'Plot Area', 'Saleable Area',
+            ]),
         ];
+    }
+
+    /**
+     * A newline-separated setting as a clean list, for dropdown options.
+     *
+     * @return array<string, string> value => label
+     */
+    public static function list(string $key): array
+    {
+        $lines = collect(preg_split('/\r\n|\r|\n/', (string) self::get($key, self::defaults()[$key] ?? '')))
+            ->map(fn ($line) => trim($line))
+            ->filter()
+            ->unique()
+            ->values();
+
+        return $lines->combine($lines)->all();
     }
 }

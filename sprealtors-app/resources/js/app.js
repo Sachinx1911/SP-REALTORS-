@@ -146,8 +146,101 @@ function initShare() {
 	});
 }
 
+/* Modals (brochure gate + lead popup) ------------------------------------ */
+function openModal(modal) {
+	if (!modal) return;
+	modal.classList.remove('hidden');
+	document.body.style.overflow = 'hidden';
+	modal.querySelector('input:not([type="hidden"]):not([tabindex="-1"])')?.focus();
+}
+
+function closeModal(modal) {
+	if (!modal) return;
+	modal.classList.add('hidden');
+	document.body.style.overflow = '';
+	modal.dispatchEvent(new CustomEvent('modal:closed'));
+}
+
+function initModals() {
+	// Any element with data-modal-open="<id>" opens that modal.
+	document.querySelectorAll('[data-modal-open]').forEach((trigger) => {
+		trigger.addEventListener('click', (e) => {
+			e.preventDefault();
+			openModal(document.getElementById(trigger.dataset.modalOpen));
+		});
+	});
+
+	document.querySelectorAll('[data-modal]').forEach((modal) => {
+		modal.querySelectorAll('[data-modal-close]').forEach((el) => {
+			el.addEventListener('click', () => closeModal(modal));
+		});
+	});
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key !== 'Escape') return;
+		document.querySelectorAll('[data-modal]:not(.hidden)').forEach(closeModal);
+	});
+}
+
+/**
+ * Timed lead popup: first after `data-first-delay`, then `data-repeat-delay`
+ * after each dismissal. Stops for good once the visitor submits it.
+ */
+function initLeadPopup() {
+	const popup = document.querySelector('[data-lead-popup]');
+	if (!popup) return;
+
+	const STORAGE_KEY = 'spr_lead_popup';
+	const MAX_DISMISSALS = 3;
+
+	let state = { done: false, dismissals: 0 };
+	try {
+		state = { ...state, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') };
+	} catch {
+		/* ignore unreadable storage */
+	}
+
+	const save = () => {
+		try {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+		} catch {
+			/* storage may be unavailable (private mode) */
+		}
+	};
+
+	// Already converted, or dismissed too many times — never show again.
+	if (state.done || state.dismissals >= MAX_DISMISSALS) return;
+
+	const firstDelay = parseInt(popup.dataset.firstDelay, 10) || 10000;
+	const repeatDelay = parseInt(popup.dataset.repeatDelay, 10) || 30000;
+
+	const schedule = (delay) => setTimeout(() => {
+		// Don't interrupt another open dialog.
+		if (document.querySelector('[data-modal]:not(.hidden)')) {
+			schedule(repeatDelay);
+			return;
+		}
+		openModal(popup);
+	}, delay);
+
+	popup.addEventListener('modal:closed', () => {
+		state.dismissals += 1;
+		save();
+		if (state.dismissals < MAX_DISMISSALS) schedule(repeatDelay);
+	});
+
+	popup.querySelector('form')?.addEventListener('submit', () => {
+		state.done = true;
+		save();
+	});
+
+	schedule(firstDelay);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 	initNavToggle();
+	initModals();
+	initLeadPopup();
 	initFilterDrawer();
 	initFilterAutoSubmit();
 	initSortSelect();

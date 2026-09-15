@@ -125,6 +125,10 @@
 		{{ $stickyCta }}
 	@endisset
 
+	@unless($hideLeadPopup ?? false)
+		<x-lead-popup />
+	@endunless
+
 	@stack('scripts')
 </body>
 </html>

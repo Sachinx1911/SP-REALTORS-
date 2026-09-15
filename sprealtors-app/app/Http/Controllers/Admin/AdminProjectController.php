@@ -84,7 +84,7 @@ class AdminProjectController extends Controller
         }
 
         if ($project->brochure) {
-            Storage::disk('public')->delete($project->brochure);
+            Storage::disk('local')->delete($project->brochure);
         }
 
         $project->delete();
@@ -92,6 +92,18 @@ class AdminProjectController extends Controller
         return redirect()
             ->route('admin.projects.index')
             ->with('status', 'Project deleted.');
+    }
+
+    public function destroyBrochure(Project $project): RedirectResponse
+    {
+        if ($project->brochure) {
+            Storage::disk('local')->delete($project->brochure);
+            $project->update(['brochure' => null]);
+        }
+
+        return redirect()
+            ->route('admin.projects.edit', $project)
+            ->with('status', 'Brochure removed.');
     }
 
     public function destroyImage(ProjectImage $image): RedirectResponse
@@ -112,7 +124,8 @@ class AdminProjectController extends Controller
     {
         $data = $request->safe()->except([
             'hero_image', 'brochure', 'gallery', 'floor_plans',
-            'highlights', 'nearby_places', 'config_type', 'config_area', 'config_price',
+            'highlights', 'nearby_places',
+            'config_type', 'config_area', 'config_area_type', 'config_price', 'config_all_inclusive',
         ]);
 
         $data['highlights'] = $this->lines($request->input('highlights'));
@@ -122,10 +135,12 @@ class AdminProjectController extends Controller
             $request->input('custom_amenities')
         ) ?: null;
 
-        // Configuration rows: type / area / price arrays submitted in parallel.
+        // Configuration rows: parallel arrays, one entry per row in the form.
         $types = (array) $request->input('config_type', []);
         $areas = (array) $request->input('config_area', []);
+        $areaTypes = (array) $request->input('config_area_type', []);
         $prices = (array) $request->input('config_price', []);
+        $allInclusive = (array) $request->input('config_all_inclusive', []);
 
         $configs = [];
         foreach ($types as $i => $type) {
@@ -135,8 +150,11 @@ class AdminProjectController extends Controller
             $configs[] = array_filter([
                 'type' => trim($type),
                 'area' => trim((string) ($areas[$i] ?? '')),
+                'area_type' => trim((string) ($areaTypes[$i] ?? '')),
                 'price' => trim((string) ($prices[$i] ?? '')),
-            ]);
+                // Checkbox value carries the row index so it survives gaps.
+                'all_inclusive' => in_array((string) $i, array_map('strval', $allInclusive), true),
+            ], fn ($value) => $value !== '' && $value !== false && $value !== null);
         }
         $data['configuration_details'] = $configs ?: null;
 
@@ -148,11 +166,13 @@ class AdminProjectController extends Controller
             );
         }
 
+        // Brochures live on the private disk so they can only be reached
+        // through BrochureController, after the lead form is submitted.
         if ($request->hasFile('brochure')) {
             if ($project?->brochure) {
-                Storage::disk('public')->delete($project->brochure);
+                Storage::disk('local')->delete($project->brochure);
             }
-            $data['brochure'] = $request->file('brochure')->store('brochures', 'public');
+            $data['brochure'] = $request->file('brochure')->store('brochures', 'local');
         }
 
         return $data;

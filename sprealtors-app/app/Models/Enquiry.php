@@ -57,6 +57,8 @@ class Enquiry extends Model
             'property' => 'Property Page',
             'project' => 'Project Page',
             'home-search' => 'Home Search',
+            'brochure' => 'Brochure Download',
+            'popup' => 'Website Popup',
         ];
     }
 

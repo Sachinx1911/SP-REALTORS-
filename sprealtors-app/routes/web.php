@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BrochureController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\HomeController;
@@ -28,6 +29,13 @@ Route::get('/property/{property}', [PropertyController::class, 'show'])->name('p
 
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 Route::get('/project/{project}', [ProjectController::class, 'show'])->name('projects.show');
+
+// Brochure downloads are gated: details first, then the file.
+Route::post('/project/{project}/brochure', [BrochureController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('projects.brochure.request');
+Route::get('/project/{project}/brochure', [BrochureController::class, 'download'])
+    ->name('projects.brochure.download');
 
 Route::get('/about-us', [PageController::class, 'about'])->name('about');
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
@@ -69,6 +77,9 @@ Route::middleware(['auth', 'panel'])
 
         Route::delete('projects/images/{image}', [AdminProjectController::class, 'destroyImage'])
             ->name('projects.images.destroy');
+        // Bound by id to match the projects resource routes below.
+        Route::delete('projects/{project:id}/brochure', [AdminProjectController::class, 'destroyBrochure'])
+            ->name('projects.brochure.destroy');
         Route::resource('projects', AdminProjectController::class)
             ->parameters(['projects' => 'project:id']);
 

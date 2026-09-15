@@ -15,6 +15,8 @@
 							:label="$config['label']"
 							:type="$config['type'] ?? 'text'"
 							:value="setting($key)"
+							:help="$config['help'] ?? null"
+							:rows="($config['type'] ?? null) === 'textarea' ? 8 : 4"
 							:required="str_contains($config['rules'], 'required')"
 							:class="($config['type'] ?? null) === 'textarea' ? 'sm:col-span-2' : ''" />
 					@endforeach

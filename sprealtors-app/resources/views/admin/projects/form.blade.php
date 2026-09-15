@@ -1,14 +1,24 @@
 @php
     $isEdit = $project->exists;
+    $oldInclusive = array_map('strval', (array) old('config_all_inclusive', []));
+
     $configs = old('config_type')
         ? collect(old('config_type'))->map(fn ($t, $i) => [
             'type' => $t,
             'area' => old('config_area')[$i] ?? '',
+            'area_type' => old('config_area_type')[$i] ?? '',
             'price' => old('config_price')[$i] ?? '',
+            'all_inclusive' => in_array((string) $i, $oldInclusive, true),
         ])->all()
         : ($project->configuration_details ?? []);
+
+    $blankRow = ['type' => '', 'area' => '', 'area_type' => '', 'price' => '', 'all_inclusive' => false];
     // Always render a few blank rows so new entries can be added.
-    $configRows = array_pad($configs, max(count($configs) + 2, 4), ['type' => '', 'area' => '', 'price' => '']);
+    $configRows = array_pad($configs, max(count($configs) + 2, 4), $blankRow);
+
+    // Dropdown choices are managed in Admin → Settings.
+    $unitTypes = \App\Models\Setting::list('config_unit_types');
+    $areaTypes = \App\Models\Setting::list('config_area_types');
 @endphp
 
 <x-layouts.admin
@@ -62,17 +72,61 @@
 
 			<section class="card p-5">
 				<h2 class="font-sans text-[15px] font-bold text-ink mb-4">Configurations</h2>
-				<p class="text-[12px] text-muted mb-3">Add one row per unit type. Leave a row blank to skip it.</p>
+				<p class="text-[12px] text-muted mb-3">
+					One row per unit type. Leave a row blank to skip it.
+					Add more Type / Area Type choices in
+					<a href="{{ route('admin.settings.edit') }}" class="text-blue font-semibold hover:underline">Settings</a>.
+				</p>
 
-				<div class="flex flex-col gap-2">
-					<div class="hidden sm:grid grid-cols-3 gap-2 text-[12px] font-semibold text-muted">
-						<span>Type</span><span>Area</span><span>Price</span>
+				<div class="flex flex-col gap-3">
+					<div class="hidden lg:grid grid-cols-[1fr_1fr_1.2fr_1fr_auto] gap-2 text-[12px] font-semibold text-muted">
+						<span>Type</span><span>Area</span><span>Area Type</span><span>Price</span><span>All Inclusive</span>
 					</div>
-					@foreach($configRows as $row)
-						<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-							<input type="text" name="config_type[]" value="{{ $row['type'] ?? '' }}" placeholder="2 BHK" class="field">
-							<input type="text" name="config_area[]" value="{{ $row['area'] ?? '' }}" placeholder="850 Sq.ft." class="field">
-							<input type="text" name="config_price[]" value="{{ $row['price'] ?? '' }}" placeholder="₹ 1.25 Cr*" class="field">
+
+					@foreach($configRows as $i => $row)
+						<div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr_1.2fr_1fr_auto] gap-2 items-center border-b border-line pb-3 lg:border-0 lg:pb-0">
+							<div>
+								<span class="lg:hidden field-label">Type</span>
+								<select name="config_type[]" class="field">
+									<option value="">— Select —</option>
+									@foreach($unitTypes as $value => $label)
+										<option value="{{ $value }}" @selected(($row['type'] ?? '') === $value)>{{ $label }}</option>
+									@endforeach
+									{{-- Keep a previously saved value that is no longer in the list. --}}
+									@if(filled($row['type'] ?? '') && ! isset($unitTypes[$row['type']]))
+										<option value="{{ $row['type'] }}" selected>{{ $row['type'] }}</option>
+									@endif
+								</select>
+							</div>
+
+							<div>
+								<span class="lg:hidden field-label">Area</span>
+								<input type="text" name="config_area[]" value="{{ $row['area'] ?? '' }}" placeholder="850 Sq.ft." class="field">
+							</div>
+
+							<div>
+								<span class="lg:hidden field-label">Area Type</span>
+								<select name="config_area_type[]" class="field">
+									<option value="">— Select —</option>
+									@foreach($areaTypes as $value => $label)
+										<option value="{{ $value }}" @selected(($row['area_type'] ?? '') === $value)>{{ $label }}</option>
+									@endforeach
+									@if(filled($row['area_type'] ?? '') && ! isset($areaTypes[$row['area_type']]))
+										<option value="{{ $row['area_type'] }}" selected>{{ $row['area_type'] }}</option>
+									@endif
+								</select>
+							</div>
+
+							<div>
+								<span class="lg:hidden field-label">Price</span>
+								<input type="text" name="config_price[]" value="{{ $row['price'] ?? '' }}" placeholder="₹ 1.25 Cr" class="field">
+							</div>
+
+							<label class="flex items-center gap-2 text-[13px] text-body cursor-pointer lg:justify-center lg:px-2 whitespace-nowrap">
+								<input type="checkbox" name="config_all_inclusive[]" value="{{ $i }}"
+								       class="w-4 h-4 accent-blue" @checked($row['all_inclusive'] ?? false)>
+								<span class="lg:hidden">All inclusive price</span>
+							</label>
 						</div>
 					@endforeach
 				</div>
@@ -122,11 +176,20 @@
 					</div>
 
 					<div>
-						<x-admin.field name="brochure" label="Brochure (PDF)" type="file" accept="application/pdf" help="Max 10 MB." />
-						@if($project->brochureUrl())
-							<a href="{{ $project->brochureUrl() }}" target="_blank" class="inline-flex items-center gap-1 text-[13px] text-blue font-semibold mt-2 hover:underline">
-								<x-icon name="download" class="w-4 h-4" /> Current brochure
-							</a>
+						<x-admin.field name="brochure" label="Brochure (PDF)" type="file" accept="application/pdf"
+						               help="Max 10 MB. Visitors must submit their details before it downloads." />
+						@if($project->hasBrochure())
+							<div class="flex items-center gap-3 mt-2">
+								<a href="{{ route('projects.brochure.download', $project) }}" target="_blank"
+								   class="inline-flex items-center gap-1 text-[13px] text-blue font-semibold hover:underline">
+									<x-icon name="download" class="w-4 h-4" /> Current brochure
+								</a>
+								<button type="button"
+								        onclick="if(confirm('Remove this brochure?')) document.getElementById('del-brochure').submit();"
+								        class="inline-flex items-center gap-1 text-[13px] text-red-600 font-semibold hover:underline cursor-pointer">
+									<x-icon name="trash" class="w-4 h-4" /> Remove
+								</button>
+							</div>
 						@endif
 					</div>
 
@@ -204,5 +267,13 @@
 				@method('DELETE')
 			</form>
 		@endforeach
+
+		@if($project->hasBrochure())
+			<form id="del-brochure" method="POST"
+			      action="{{ route('admin.projects.brochure.destroy', $project) }}" class="hidden">
+				@csrf
+				@method('DELETE')
+			</form>
+		@endif
 	@endif
 </x-layouts.admin>

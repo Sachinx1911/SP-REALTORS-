@@ -88,7 +88,30 @@
 		</section>
 	@endif
 
-	{{-- 5. BROWSE BY REQUIREMENT ---------------------------------------- --}}
+	{{-- 5. FEATURED PROJECTS -------------------------------------------- --}}
+	@if($featuredProjects->isNotEmpty())
+		<section class="section pt-0">
+			<div class="site-container">
+				<div class="flex items-end justify-between gap-4 mb-6">
+					<div>
+						<h2 class="text-[24px] lg:text-[30px]">New Projects</h2>
+						<p class="text-[13px] text-muted m-0">Premium projects by trusted developers</p>
+					</div>
+					<a href="{{ route('projects.index') }}" class="inline-flex items-center gap-1 text-[13px] font-semibold text-blue hover:underline shrink-0">
+						View All Projects <x-icon name="arrow-right" class="w-4 h-4" />
+					</a>
+				</div>
+
+				<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+					@foreach($featuredProjects as $project)
+						<x-project-card :project="$project" />
+					@endforeach
+				</div>
+			</div>
+		</section>
+	@endif
+
+	{{-- 6. BROWSE BY REQUIREMENT ---------------------------------------- --}}
 	<section class="section pt-0">
 		<div class="site-container">
 			<h2 class="text-[24px] lg:text-[30px] mb-5">Browse by Requirement</h2>

@@ -46,6 +46,20 @@ class AdminSettingController extends Controller
                 'stat_4_number' => ['label' => 'Stat 4 Number', 'rules' => 'nullable|string|max:40'],
                 'stat_4_label' => ['label' => 'Stat 4 Label', 'rules' => 'nullable|string|max:60'],
             ],
+            'Project Configuration Options' => [
+                'config_unit_types' => [
+                    'label' => 'Unit Types (one per line)',
+                    'rules' => 'nullable|string|max:2000',
+                    'type' => 'textarea',
+                    'help' => 'Choices for the "Type" dropdown on project configurations — e.g. 2 BHK, Shop, Villa.',
+                ],
+                'config_area_types' => [
+                    'label' => 'Area Types (one per line)',
+                    'rules' => 'nullable|string|max:2000',
+                    'type' => 'textarea',
+                    'help' => 'Choices for the "Area Type" dropdown — e.g. Carpet Area, Built-up Area.',
+                ],
+            ],
             'SEO' => [
                 'seo_title' => ['label' => 'Default SEO Title', 'rules' => 'nullable|string|max:180'],
                 'seo_description' => ['label' => 'Default Meta Description', 'rules' => 'nullable|string|max:500', 'type' => 'textarea'],

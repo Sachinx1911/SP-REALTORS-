@@ -132,9 +132,22 @@ class Project extends Model
         return $this->hero_image ? asset('storage/'.$this->hero_image) : null;
     }
 
-    public function brochureUrl(): ?string
+    /**
+     * Brochures are served through BrochureController so the download stays
+     * behind the lead-capture form — never link the stored file directly.
+     */
+    public function hasBrochure(): bool
     {
-        return $this->brochure ? asset('storage/'.$this->brochure) : null;
+        return filled($this->brochure);
+    }
+
+    /**
+     * Session key marking that this visitor has already given their details
+     * for this project's brochure.
+     */
+    public function brochureUnlockKey(): string
+    {
+        return 'brochure_unlocked.'.$this->id;
     }
 
     public function whatsappUrl(): string

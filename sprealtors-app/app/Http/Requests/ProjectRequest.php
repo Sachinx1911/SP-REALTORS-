@@ -45,8 +45,12 @@ class ProjectRequest extends FormRequest
             'config_type.*' => ['nullable', 'string', 'max:40'],
             'config_area' => ['nullable', 'array'],
             'config_area.*' => ['nullable', 'string', 'max:40'],
+            'config_area_type' => ['nullable', 'array'],
+            'config_area_type.*' => ['nullable', 'string', 'max:40'],
             'config_price' => ['nullable', 'array'],
             'config_price.*' => ['nullable', 'string', 'max:40'],
+            'config_all_inclusive' => ['nullable', 'array'],
+            'config_all_inclusive.*' => ['nullable', 'string'],
 
             'map_url' => ['nullable', 'url', 'max:1000'],
             'contact_phone' => ['nullable', 'string', 'max:32'],
