@@ -9,14 +9,16 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::updateOrCreate(
+        $admin = User::updateOrCreate(
             ['email' => 'admin@sprealtors.in'],
             [
                 'name' => 'SP Realtors Admin',
                 'password' => 'password',
-                'is_admin' => true,
             ]
         );
+
+        // Set outside the fillable payload — see User::$fillable.
+        $admin->forceFill(['is_admin' => true])->save();
 
         $this->call([
             SettingSeeder::class,

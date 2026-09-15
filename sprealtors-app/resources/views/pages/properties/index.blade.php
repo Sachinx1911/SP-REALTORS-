@@ -1,5 +1,5 @@
 <x-layouts.site
-	title="Properties for Sale &amp; Rent in Navi Mumbai | SP REALTORS"
+	title="Properties for Sale and Rent in Navi Mumbai | SP REALTORS"
 	description="Browse verified residential and commercial properties for sale and rent across Kharghar, Panvel, Vashi, Nerul, Ulwe and more in Navi Mumbai.">
 
 	<x-page-hero

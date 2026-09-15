@@ -32,8 +32,10 @@ return [
 
         'local' => [
             'driver' => 'local',
+            // 'serve' stays off: this app never serves or temp-uploads private
+            // files, and enabling it registers public GET/PUT storage routes.
             'root' => storage_path('app/private'),
-            'serve' => true,
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

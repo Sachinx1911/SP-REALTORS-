@@ -18,11 +18,12 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    // 'is_admin' is deliberately not fillable — it must be set explicitly so a
+    // stray mass-assignment can never grant admin rights.
     protected $fillable = [
         'name',
         'email',
         'password',
-        'is_admin',
     ];
 
     /**

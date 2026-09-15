@@ -5,20 +5,44 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<title>{{ $title ?? setting('seo_title') }}</title>
-	<meta name="description" content="{{ $description ?? setting('seo_description') }}">
-	<link rel="canonical" href="{{ url()->current() }}">
+	@php
+		// Decode first so an entity written in a title (e.g. "&amp;") is not
+		// escaped twice by Blade into "&amp;amp;".
+		$metaTitle = html_entity_decode((string) ($title ?? setting('seo_title')), ENT_QUOTES, 'UTF-8');
+		$metaDescription = html_entity_decode((string) ($description ?? setting('seo_description')), ENT_QUOTES, 'UTF-8');
+		$metaImage = $ogImage ?? asset('images/hero-building.jpg');
+
+		// Keep pagination in the canonical so deep pages stay indexable, but
+		// drop filter/sort params — those are near-duplicates of the base page.
+		$canonical = request()->has('page')
+			? url()->current().'?page='.(int) request('page')
+			: url()->current();
+
+		// Faceted result pages should not be indexed at all.
+		$noindex = request()->hasAny(['type', 'configuration', 'budget', 'sort', 'location', 'purpose', 'q', 'status']);
+	@endphp
+
+	<title>{{ $metaTitle }}</title>
+	<meta name="description" content="{{ $metaDescription }}">
+	<link rel="canonical" href="{{ $canonical }}">
+	@if($noindex)
+		<meta name="robots" content="noindex, follow">
+	@else
+		<meta name="robots" content="index, follow, max-image-preview:large">
+	@endif
 
 	{{-- Open Graph / Twitter --}}
 	<meta property="og:type" content="{{ $ogType ?? 'website' }}">
+	<meta property="og:locale" content="en_IN">
 	<meta property="og:site_name" content="{{ setting('site_name') }}">
-	<meta property="og:title" content="{{ $title ?? setting('seo_title') }}">
-	<meta property="og:description" content="{{ $description ?? setting('seo_description') }}">
-	<meta property="og:url" content="{{ url()->current() }}">
-	@isset($ogImage)
-		<meta property="og:image" content="{{ $ogImage }}">
-	@endisset
+	<meta property="og:title" content="{{ $metaTitle }}">
+	<meta property="og:description" content="{{ $metaDescription }}">
+	<meta property="og:url" content="{{ $canonical }}">
+	<meta property="og:image" content="{{ $metaImage }}">
 	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ $metaTitle }}">
+	<meta name="twitter:description" content="{{ $metaDescription }}">
+	<meta name="twitter:image" content="{{ $metaImage }}">
 
 	<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
@@ -30,15 +54,23 @@
 
 	{{-- LocalBusiness schema on every page --}}
 	@php
-		$businessSchema = [
+		$socialProfiles = array_values(array_filter([
+			setting('facebook'), setting('instagram'), setting('linkedin'), setting('youtube'),
+		]));
+
+		$businessSchema = array_filter([
 			'@context' => 'https://schema.org',
 			'@type' => 'RealEstateAgent',
+			'@id' => url('/').'#organization',
 			'name' => setting('site_name'),
-			'description' => setting('seo_description'),
+			'description' => $metaDescription,
 			'url' => url('/'),
+			'logo' => asset('favicon.svg'),
+			'image' => asset('images/hero-building.jpg'),
 			'telephone' => setting('phone'),
 			'email' => setting('email'),
-			'areaServed' => 'Navi Mumbai, Maharashtra, India',
+			'priceRange' => '₹₹',
+			'sameAs' => $socialProfiles ?: null,
 			'address' => [
 				'@type' => 'PostalAddress',
 				'addressLocality' => 'Navi Mumbai',
@@ -46,10 +78,33 @@
 				'addressCountry' => 'IN',
 				'streetAddress' => setting('address'),
 			],
+			'areaServed' => [
+				'@type' => 'City',
+				'name' => 'Navi Mumbai',
+			],
+			'openingHours' => setting('working_hours'),
+		]);
+
+		$websiteSchema = [
+			'@context' => 'https://schema.org',
+			'@type' => 'WebSite',
+			'url' => url('/'),
+			'name' => setting('site_name'),
+			'potentialAction' => [
+				'@type' => 'SearchAction',
+				'target' => [
+					'@type' => 'EntryPoint',
+					'urlTemplate' => route('properties.index').'?q={search_term_string}',
+				],
+				'query-input' => 'required name=search_term_string',
+			],
 		];
 	@endphp
 	<script type="application/ld+json">
 		{!! json_encode($businessSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+	</script>
+	<script type="application/ld+json">
+		{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
 	</script>
 
 	@stack('head')

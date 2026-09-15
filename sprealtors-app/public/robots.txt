@@ -1,2 +1,15 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Admin and auth pages must never be indexed.
+Disallow: /admin
+Disallow: /admin/
+
+# Faceted filter URLs create near-duplicate pages; the canonical tag points
+# them back to /properties, and these rules keep crawl budget on real content.
+Disallow: /*?*type=
+Disallow: /*?*configuration=
+Disallow: /*?*budget=
+Disallow: /*?*sort=
+
+Sitemap: https://sprealtors.in/sitemap.xml

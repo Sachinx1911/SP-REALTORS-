@@ -201,17 +201,56 @@ fonts, radii, shadows. Change a token there and it updates site-wide.
 - CSRF protection on every form
 - Form Request validation on all writes
 - Admin routes behind `auth` + `admin` middleware; no public registration
+- `is_admin` is not mass-assignable — it can only be set explicitly
 - Upload validation: MIME type + extension + 5 MB limit, re-encoded through GD
+  (which strips any payload hidden inside an image)
 - Honeypot + rate limiting (10/min) on the public enquiry form; 5/min on login
-- Eloquent/query builder throughout (no raw user-interpolated SQL)
+- Eloquent/query builder throughout; the one `selectRaw` column is allow-listed
 - Blade auto-escaping on all output
+- Unpublished properties/projects return 404 and never appear in listings
+- Security headers on every response (`SecurityHeaders` middleware): CSP,
+  `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`,
+  `Permissions-Policy`, and HSTS once served over HTTPS
+- Version banners suppressed (`expose_php=Off`, `ServerTokens Prod`)
+- `public/.htaccess` denies dotfiles and `.env`/`.log`/`.sql`-type files
+
+### Production checklist
+
+Set these in `.env` before going live:
+
+```
+APP_ENV=production
+APP_DEBUG=false              # never true in production — leaks stack traces
+SESSION_SECURE_COOKIE=true   # requires HTTPS
+SESSION_ENCRYPT=true
+```
+
+Then change the seeded admin password and confirm `/admin` requires login.
+
+> On cPanel you may not control Apache's main config. If `Server:` still shows a
+> full version string, ask the host to set `ServerTokens Prod`. This is
+> information disclosure only, not a vulnerability by itself.
 
 ---
 
 ## 8. SEO
 
 - Per-page title, meta description, canonical, Open Graph and Twitter tags
-- `RealEstateAgent` schema site-wide; `RealEstateListing` on property pages
-- `BreadcrumbList` schema on every breadcrumb trail
+- **`sitemap.xml`** generated from the database at `/sitemap.xml` — all published
+  properties, projects and per-location landing pages, with `lastmod` taken from
+  each record's `updated_at`
+- **`robots.txt`** disallows `/admin` and faceted filter URLs, and points to the sitemap
+- **Canonical strategy:** filtered listing pages are `noindex, follow` and
+  canonicalise to the clean listing URL, so filter combinations never create
+  duplicate content; paginated pages self-canonicalise so deep listings stay
+  indexable
+- **Schema.org:** `RealEstateAgent` + `WebSite` (with SearchAction) site-wide,
+  `RealEstateListing` on properties, `FAQPage` on contact, `BreadcrumbList` on
+  every breadcrumb trail — all validated as parsing JSON
 - Clean URLs, semantic HTML, one `<h1>` per page, alt text on images
+- WebP images with JPEG fallback; long-lived cache headers and gzip via `.htaccess`
 - Admin can override SEO title/description per property, project and location
+
+After deploying, submit `https://sprealtors.in/sitemap.xml` in
+[Google Search Console](https://search.google.com/search-console) so Google
+starts indexing.

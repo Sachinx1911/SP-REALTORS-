@@ -1,6 +1,22 @@
+@php
+	$faqSchema = [
+		'@context' => 'https://schema.org',
+		'@type' => 'FAQPage',
+		'mainEntity' => collect($faqs)->map(fn ($faq) => [
+			'@type' => 'Question',
+			'name' => $faq['question'],
+			'acceptedAnswer' => ['@type' => 'Answer', 'text' => $faq['answer']],
+		])->all(),
+	];
+@endphp
+
 <x-layouts.site
 	title="Contact SP REALTORS — Navi Mumbai Real Estate"
 	description="Get in touch with SP REALTORS for any property related queries in Navi Mumbai. Call, WhatsApp or send us a message and we'll get back to you shortly.">
+
+	@push('head')
+		<script type="application/ld+json">{!! json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+	@endpush
 
 	<x-page-hero
 		eyebrow="Get in Touch"

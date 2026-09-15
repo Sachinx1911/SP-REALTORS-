@@ -68,10 +68,15 @@ class PropertyController extends Controller
      */
     private function counts(string $column): array
     {
+        // Allow-listed so the column can never reach raw SQL from user input.
+        if (! in_array($column, ['property_type', 'purpose', 'configuration', 'status', 'furnishing'], true)) {
+            return [];
+        }
+
         return Property::query()
             ->published()
             ->whereNotNull($column)
-            ->selectRaw("{$column} as value, COUNT(*) as total")
+            ->selectRaw("`{$column}` as value, COUNT(*) as total")
             ->groupBy($column)
             ->pluck('total', 'value')
             ->all();

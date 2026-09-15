@@ -14,6 +14,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 /* -------------------------------------------------------------------------
@@ -33,6 +34,8 @@ Route::get('/contact-us', [ContactController::class, 'index'])->name('contact');
 Route::post('/enquiry', [EnquiryController::class, 'store'])
     ->middleware('throttle:10,1')
     ->name('enquiry.store');
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 /* -------------------------------------------------------------------------
  * Auth (admin login only — no public registration)
