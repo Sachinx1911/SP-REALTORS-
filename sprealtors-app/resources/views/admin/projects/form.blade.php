@@ -165,7 +165,7 @@
 				<div class="grid gap-4 sm:grid-cols-2">
 					<x-admin.field name="map_url" label="Google Maps Embed URL" type="url" :value="$project->map_url" class="sm:col-span-2" />
 					<x-admin.field name="contact_phone" label="Contact Phone" :value="$project->contact_phone" help="Blank uses site default." />
-					<x-admin.field name="contact_whatsapp" label="Contact WhatsApp" :value="$project->contact_whatsapp" help="e.g. 919324473328" />
+					<x-admin.field name="contact_whatsapp" label="Contact WhatsApp" :value="$project->contact_whatsapp" help="e.g. 918097985588" />
 					<x-admin.field name="seo_title" label="SEO Title" :value="$project->seo_title" class="sm:col-span-2" />
 					<x-admin.field name="seo_description" label="Meta Description" type="textarea" rows="3"
 					               :value="$project->seo_description" class="sm:col-span-2" />

@@ -4,3 +4,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+
+# Local AI-assistant tooling (never part of the shipped project)
+.claude/

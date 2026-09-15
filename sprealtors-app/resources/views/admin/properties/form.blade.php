@@ -157,7 +157,7 @@
 					<x-admin.field name="contact_phone" label="Contact Phone" :value="$property->contact_phone"
 					               help="Leave blank to use the site default." />
 					<x-admin.field name="contact_whatsapp" label="Contact WhatsApp" :value="$property->contact_whatsapp"
-					               help="Digits with country code, e.g. 919324473328" />
+					               help="Digits with country code, e.g. 918097985588" />
 					<x-admin.field name="seo_title" label="SEO Title" :value="$property->seo_title" class="sm:col-span-2" />
 					<x-admin.field name="seo_description" label="Meta Description" type="textarea" rows="3"
 					               :value="$property->seo_description" class="sm:col-span-2" />

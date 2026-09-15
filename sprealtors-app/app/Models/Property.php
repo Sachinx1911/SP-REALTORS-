@@ -300,7 +300,7 @@ class Property extends Model
 
     public function whatsappUrl(): string
     {
-        $number = $this->contact_whatsapp ?: setting('whatsapp', '919324473328');
+        $number = $this->contact_whatsapp ?: setting('whatsapp', '918097985588');
         $message = sprintf(
             "Hello SP REALTORS,\nI am interested in %s (%s).\nPlease share more details.",
             $this->title,
@@ -312,7 +312,7 @@ class Property extends Model
 
     public function telUrl(): string
     {
-        $number = $this->contact_phone ?: setting('phone', '+91 93244 73328');
+        $number = $this->contact_phone ?: setting('phone', '+91 80979 85588');
 
         return 'tel:'.preg_replace('/[^+0-9]/', '', $number);
     }

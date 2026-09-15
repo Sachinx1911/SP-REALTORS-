@@ -60,9 +60,9 @@ class Setting extends Model
     {
         return [
             'site_name' => 'SP REALTORS',
-            'tagline' => 'Properties · People · Possibilities',
-            'phone' => '+91 93244 73328',
-            'whatsapp' => '919324473328',
+            'tagline' => 'Your Property, Our Priority',
+            'phone' => '+91 80979 85588',
+            'whatsapp' => '918097985588',
             'email' => 'info@sprealtors.in',
             'address' => 'Navi Mumbai, Maharashtra',
             'working_hours' => 'Mon - Sat: 9:00 AM - 7:00 PM',
