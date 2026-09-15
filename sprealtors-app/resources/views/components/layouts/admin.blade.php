@@ -39,8 +39,8 @@
 	{{-- Sidebar --}}
 	<aside class="lg:w-[250px] lg:shrink-0 bg-navy text-white lg:min-h-screen">
 		<div class="flex items-center justify-between lg:block p-5">
-			<a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-				<x-icon name="home" class="w-7 h-7" />
+			<a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
+				<img src="{{ asset('images/logo-mark.png') }}" alt="" class="w-8 h-8 rounded-full bg-white/95 p-0.5 object-contain">
 				<span class="flex flex-col leading-tight">
 					<span class="font-display text-[18px]">SP REALTORS</span>
 					<span class="text-[10px] text-white/60">Admin Panel</span>

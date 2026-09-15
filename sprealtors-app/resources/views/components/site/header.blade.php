@@ -12,10 +12,8 @@
 	<div class="site-container h-16 lg:h-[72px] flex items-center justify-between gap-4">
 
 		{{-- Brand --}}
-		<a href="{{ route('home') }}" class="flex items-center gap-2 shrink-0">
-			<span class="text-navy">
-				<x-icon name="home" class="w-8 h-8" />
-			</span>
+		<a href="{{ route('home') }}" class="flex items-center gap-2.5 shrink-0">
+			<img src="{{ asset('images/logo-mark.png') }}" alt="" class="w-10 h-10 lg:w-11 lg:h-11 object-contain">
 			<span class="flex flex-col leading-tight">
 				<span class="font-display text-[19px] lg:text-[21px] text-navy">{{ setting('site_name') }}</span>
 				<span class="text-[10px] lg:text-[11px] text-muted">{{ setting('tagline') }}</span>

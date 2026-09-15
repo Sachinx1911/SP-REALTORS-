@@ -16,8 +16,8 @@
 
 	<div class="w-full max-w-[400px]">
 		<div class="text-center mb-6">
-			<a href="{{ route('home') }}" class="inline-flex items-center gap-2">
-				<span class="text-navy"><x-icon name="home" class="w-9 h-9" /></span>
+			<a href="{{ route('home') }}" class="inline-flex items-center gap-2.5">
+				<img src="{{ asset('images/logo-mark.png') }}" alt="" class="w-11 h-11 object-contain">
 				<span class="flex flex-col leading-tight text-left">
 					<span class="font-display text-[22px] text-navy">SP REALTORS</span>
 					<span class="text-[11px] text-muted">Properties · People · Possibilities</span>

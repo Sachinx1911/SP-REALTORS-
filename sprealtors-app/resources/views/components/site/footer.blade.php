@@ -9,12 +9,12 @@
 
 <footer class="bg-white border-t border-line mt-0">
 	<div class="site-container py-10 lg:py-12">
-		<div class="grid gap-8 lg:grid-cols-[1.2fr_1fr_1.3fr]">
+		<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
 
 			{{-- Brand --}}
 			<div>
-				<div class="flex items-center gap-2">
-					<span class="text-navy"><x-icon name="home" class="w-8 h-8" /></span>
+				<div class="flex items-center gap-2.5">
+					<img src="{{ asset('images/logo-mark.png') }}" alt="" class="w-9 h-9 object-contain">
 					<span class="flex flex-col leading-tight">
 						<span class="font-display text-[21px] text-navy">{{ setting('site_name') }}</span>
 						<span class="text-[11px] text-muted">{{ setting('tagline') }}</span>
@@ -34,40 +34,23 @@
 				@endif
 			</div>
 
-			{{-- Quick links --}}
-			<nav aria-label="Footer">
-				<ul class="flex flex-col gap-2">
-					@foreach([
-						['Home', 'home'],
-						['Properties', 'properties.index'],
-						['Projects', 'projects.index'],
-						['About Us', 'about'],
-						['Contact', 'contact'],
-					] as [$label, $route])
-						<li>
-							<a href="{{ route($route) }}" class="text-[14px] text-body hover:text-blue transition-colors">{{ $label }}</a>
-						</li>
-					@endforeach
-				</ul>
-			</nav>
-
-			{{-- Contact --}}
-			<ul class="flex flex-col gap-3">
+			{{-- Contact — horizontal --}}
+			<ul class="flex flex-col sm:flex-row flex-wrap gap-x-8 gap-y-3">
 				@if(setting('phone'))
-					<li class="flex items-start gap-2 text-[14px] text-body">
-						<span class="text-blue mt-0.5"><x-icon name="phone" class="w-[18px] h-[18px]" /></span>
+					<li class="flex items-center gap-2 text-[14px] text-body">
+						<span class="text-blue"><x-icon name="phone" class="w-[18px] h-[18px]" /></span>
 						<a href="{{ tel_url() }}" class="hover:text-blue">{{ setting('phone') }}</a>
 					</li>
 				@endif
 				@if(setting('email'))
-					<li class="flex items-start gap-2 text-[14px] text-body">
-						<span class="text-blue mt-0.5"><x-icon name="mail" class="w-[18px] h-[18px]" /></span>
+					<li class="flex items-center gap-2 text-[14px] text-body">
+						<span class="text-blue"><x-icon name="mail" class="w-[18px] h-[18px]" /></span>
 						<a href="mailto:{{ setting('email') }}" class="hover:text-blue">{{ setting('email') }}</a>
 					</li>
 				@endif
 				@if(setting('address'))
-					<li class="flex items-start gap-2 text-[14px] text-body">
-						<span class="text-blue mt-0.5"><x-icon name="map-pin" class="w-[18px] h-[18px]" /></span>
+					<li class="flex items-center gap-2 text-[14px] text-body">
+						<span class="text-blue"><x-icon name="map-pin" class="w-[18px] h-[18px]" /></span>
 						<span>{{ setting('address') }}</span>
 					</li>
 				@endif

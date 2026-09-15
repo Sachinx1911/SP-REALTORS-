@@ -44,7 +44,9 @@
 	<meta name="twitter:description" content="{{ $metaDescription }}">
 	<meta name="twitter:image" content="{{ $metaImage }}">
 
-	<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+	<link rel="icon" href="{{ asset('favicon-32.png') }}" type="image/png" sizes="32x32">
+	<link rel="icon" href="{{ asset('favicon-512.png') }}" type="image/png" sizes="512x512">
+	<link rel="apple-touch-icon" href="{{ asset('favicon-180.png') }}">
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,7 +67,7 @@
 			'name' => setting('site_name'),
 			'description' => $metaDescription,
 			'url' => url('/'),
-			'logo' => asset('favicon.svg'),
+			'logo' => asset('images/logo-full.png'),
 			'image' => asset('images/hero-building.jpg'),
 			'telephone' => setting('phone'),
 			'email' => setting('email'),
