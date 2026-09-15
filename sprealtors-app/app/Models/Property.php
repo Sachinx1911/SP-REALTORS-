@@ -52,10 +52,6 @@ class Property extends Model
         return 'slug';
     }
 
-    /* ---------------------------------------------------------------------
-     * Relationships
-     * ------------------------------------------------------------------ */
-
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
@@ -70,10 +66,6 @@ class Property extends Model
     {
         return $this->hasMany(Enquiry::class);
     }
-
-    /* ---------------------------------------------------------------------
-     * Scopes
-     * ------------------------------------------------------------------ */
 
     public function scopePublished(Builder $query): Builder
     {
@@ -201,10 +193,6 @@ class Property extends Model
             'unfurnished' => 'Unfurnished',
         ];
     }
-
-    /* ---------------------------------------------------------------------
-     * Presentation helpers
-     * ------------------------------------------------------------------ */
 
     /**
      * Indian-format price: "₹ 85 Lac", "₹ 1.20 Cr", "₹ 55,000 / month".

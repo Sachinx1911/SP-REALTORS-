@@ -49,10 +49,6 @@ class Project extends Model
         return 'slug';
     }
 
-    /* ---------------------------------------------------------------------
-     * Relationships
-     * ------------------------------------------------------------------ */
-
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
@@ -78,10 +74,6 @@ class Project extends Model
         return $this->hasMany(Enquiry::class);
     }
 
-    /* ---------------------------------------------------------------------
-     * Scopes
-     * ------------------------------------------------------------------ */
-
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true);
@@ -102,10 +94,6 @@ class Project extends Model
             'completed' => 'Completed',
         ];
     }
-
-    /* ---------------------------------------------------------------------
-     * Presentation helpers
-     * ------------------------------------------------------------------ */
 
     public function formattedStartingPrice(): string
     {
