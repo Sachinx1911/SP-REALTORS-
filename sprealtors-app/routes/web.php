@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminProjectController;
 use App\Http\Controllers\Admin\AdminPropertyController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactController;
@@ -80,6 +81,10 @@ Route::middleware(['auth', 'admin'])
         Route::get('enquiries/{enquiry}', [AdminEnquiryController::class, 'show'])->name('enquiries.show');
         Route::patch('enquiries/{enquiry}', [AdminEnquiryController::class, 'update'])->name('enquiries.update');
         Route::delete('enquiries/{enquiry}', [AdminEnquiryController::class, 'destroy'])->name('enquiries.destroy');
+
+        Route::resource('users', AdminUserController::class)
+            ->except('show')
+            ->parameters(['users' => 'user:id']);
 
         Route::get('settings', [AdminSettingController::class, 'edit'])->name('settings.edit');
         Route::put('settings', [AdminSettingController::class, 'update'])->name('settings.update');
