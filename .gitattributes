@@ -1,6 +1,10 @@
-# सगळ्या text files LF line endings ने (Docker/Linux server वर अडचण नको)
+# Normalise line endings (Linux servers / Docker)
 * text=auto eol=lf
+
 *.jpg binary
+*.jpeg binary
 *.png binary
+*.webp binary
+*.avif binary
 *.woff2 binary
-*.mo binary
+*.pdf binary
