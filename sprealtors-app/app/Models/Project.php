@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Project extends Model
@@ -138,7 +139,29 @@ class Project extends Model
      */
     public function hasBrochure(): bool
     {
-        return filled($this->brochure);
+        return filled($this->brochure) && $this->brochureDisk() !== null;
+    }
+
+    /**
+     * Which disk holds this brochure.
+     *
+     * New uploads go to the private disk. Brochures uploaded before that
+     * change still sit on the public disk, so fall back to it rather than
+     * 404-ing on a file that exists.
+     */
+    public function brochureDisk(): ?string
+    {
+        if (blank($this->brochure)) {
+            return null;
+        }
+
+        foreach (['local', 'public'] as $disk) {
+            if (Storage::disk($disk)->exists($this->brochure)) {
+                return $disk;
+            }
+        }
+
+        return null;
     }
 
     /**

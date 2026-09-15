@@ -57,11 +57,11 @@ class BrochureController extends Controller
             abort_unless($request->session()->get($project->brochureUnlockKey()), 403);
         }
 
-        $disk = Storage::disk('local');
-        abort_unless($disk->exists($project->brochure), 404);
+        $disk = $project->brochureDisk();
+        abort_if($disk === null, 404);
 
         $filename = str($project->name)->slug()->value().'-brochure.pdf';
 
-        return $disk->download($project->brochure, $filename);
+        return Storage::disk($disk)->download($project->brochure, $filename);
     }
 }

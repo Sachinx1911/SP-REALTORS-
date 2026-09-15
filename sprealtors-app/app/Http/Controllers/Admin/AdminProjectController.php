@@ -83,8 +83,8 @@ class AdminProjectController extends Controller
             ImageUploader::delete($image->path);
         }
 
-        if ($project->brochure) {
-            Storage::disk('local')->delete($project->brochure);
+        if ($disk = $project->brochureDisk()) {
+            Storage::disk($disk)->delete($project->brochure);
         }
 
         $project->delete();
@@ -96,10 +96,10 @@ class AdminProjectController extends Controller
 
     public function destroyBrochure(Project $project): RedirectResponse
     {
-        if ($project->brochure) {
-            Storage::disk('local')->delete($project->brochure);
-            $project->update(['brochure' => null]);
+        if ($disk = $project->brochureDisk()) {
+            Storage::disk($disk)->delete($project->brochure);
         }
+        $project->update(['brochure' => null]);
 
         return redirect()
             ->route('admin.projects.edit', $project)
@@ -169,8 +169,8 @@ class AdminProjectController extends Controller
         // Brochures live on the private disk so they can only be reached
         // through BrochureController, after the lead form is submitted.
         if ($request->hasFile('brochure')) {
-            if ($project?->brochure) {
-                Storage::disk('local')->delete($project->brochure);
+            if ($project && ($disk = $project->brochureDisk())) {
+                Storage::disk($disk)->delete($project->brochure);
             }
             $data['brochure'] = $request->file('brochure')->store('brochures', 'local');
         }
