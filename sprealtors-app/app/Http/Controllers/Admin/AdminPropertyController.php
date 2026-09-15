@@ -119,7 +119,10 @@ class AdminPropertyController extends Controller
             ->values()
             ->all() ?: null;
 
-        $data['amenities'] = $request->input('amenities') ?: null;
+        $data['amenities'] = Amenities::mergeCustom(
+            (array) $request->input('amenities', []),
+            $request->input('custom_amenities')
+        ) ?: null;
 
         if ($request->hasFile('main_image')) {
             $data['main_image'] = ImageUploader::replace(

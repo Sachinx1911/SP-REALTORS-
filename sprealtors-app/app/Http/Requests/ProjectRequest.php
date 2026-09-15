@@ -39,6 +39,7 @@ class ProjectRequest extends FormRequest
             'nearby_places' => ['nullable', 'string', 'max:2000'],
             'amenities' => ['nullable', 'array'],
             'amenities.*' => ['string', 'max:60'],
+            'custom_amenities' => ['nullable', 'string', 'max:1000'],
 
             'config_type' => ['nullable', 'array'],
             'config_type.*' => ['nullable', 'string', 'max:40'],

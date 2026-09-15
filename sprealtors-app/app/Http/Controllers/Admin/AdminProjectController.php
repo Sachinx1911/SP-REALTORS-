@@ -117,7 +117,10 @@ class AdminProjectController extends Controller
 
         $data['highlights'] = $this->lines($request->input('highlights'));
         $data['nearby_places'] = $this->lines($request->input('nearby_places'));
-        $data['amenities'] = $request->input('amenities') ?: null;
+        $data['amenities'] = Amenities::mergeCustom(
+            (array) $request->input('amenities', []),
+            $request->input('custom_amenities')
+        ) ?: null;
 
         // Configuration rows: type / area / price arrays submitted in parallel.
         $types = (array) $request->input('config_type', []);

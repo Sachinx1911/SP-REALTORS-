@@ -101,6 +101,11 @@
 								</label>
 							@endforeach
 						</div>
+
+						<x-admin.field name="custom_amenities" label="Other Amenities" type="text" class="mt-3"
+						               :value="old('custom_amenities', implode(', ', \App\Support\Amenities::customOnly($project->amenities ?? [])))"
+						               placeholder="e.g. Solar Panels, Rain Water Harvesting"
+						               help="Not in the list above? Type your own, separated by commas." />
 					</div>
 				</div>
 			</section>

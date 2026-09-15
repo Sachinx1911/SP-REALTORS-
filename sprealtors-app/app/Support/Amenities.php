@@ -22,6 +22,47 @@ class Amenities
     }
 
     /**
+     * Merge checkbox selections with free-typed custom amenities.
+     *
+     * Splits $customInput on commas/newlines, trims, drops empties/duplicates
+     * (case-insensitive, so "Solar Panel" typed twice only appears once) and
+     * caps each label at 60 chars to match the amenities.* validation rule.
+     *
+     * @param  list<string>  $selected
+     * @return list<string>
+     */
+    public static function mergeCustom(array $selected, ?string $customInput): array
+    {
+        $custom = collect(preg_split('/[,\n\r]+/', (string) $customInput))
+            ->map(fn ($item) => Str::of($item)->trim()->limit(60, '')->value())
+            ->filter();
+
+        return collect($selected)
+            ->merge($custom)
+            ->filter()
+            ->unique(fn ($item) => Str::lower($item))
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Amenities on a record that are not part of the predefined checkbox
+     * list — used to pre-fill the "Other amenities" field when editing.
+     *
+     * @param  list<string>|null  $amenities
+     * @return list<string>
+     */
+    public static function customOnly(?array $amenities): array
+    {
+        $known = collect(self::options())->map(fn ($item) => Str::lower($item));
+
+        return collect($amenities ?? [])
+            ->reject(fn ($item) => $known->contains(Str::lower($item)))
+            ->values()
+            ->all();
+    }
+
+    /**
      * Map an amenity label to an icon name in the shared icon component.
      */
     public static function icon(string $amenity): string

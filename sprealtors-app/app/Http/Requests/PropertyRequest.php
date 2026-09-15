@@ -45,6 +45,7 @@ class PropertyRequest extends FormRequest
             'highlights' => ['nullable', 'string', 'max:2000'],
             'amenities' => ['nullable', 'array'],
             'amenities.*' => ['string', 'max:60'],
+            'custom_amenities' => ['nullable', 'string', 'max:1000'],
 
             'rera_number' => ['nullable', 'string', 'max:80'],
             'possession' => ['nullable', 'string', 'max:80'],
