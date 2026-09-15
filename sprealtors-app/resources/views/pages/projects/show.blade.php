@@ -253,6 +253,11 @@
 		</div>
 	</div>
 
+	{{-- Details just submitted: pull the file without navigating away. --}}
+	@if(session('brochure_download_url'))
+		<iframe src="{{ session('brochure_download_url') }}" class="hidden" title="Brochure download" aria-hidden="true"></iframe>
+	@endif
+
 	{{-- Brochure is only released after the visitor shares their details. --}}
 	@if($project->hasBrochure() && ! session()->get($project->brochureUnlockKey()))
 		<x-lead-modal

@@ -113,6 +113,26 @@
 </head>
 <body class="antialiased {{ isset($stickyCta) ? 'pb-[60px] lg:pb-0' : '' }}">
 
+	{{-- Confirmation for any enquiry submitted from anywhere on the site
+	     (popup, brochure gate, contact form) — without this a visitor who
+	     submits a modal gets no feedback at all. --}}
+	@if(session('enquiry_success'))
+		<div data-flash-toast
+		     class="fixed top-4 inset-x-4 sm:inset-x-auto sm:right-4 sm:max-w-[380px] z-[70]
+		            bg-white border border-green/40 rounded-[8px] shadow-[0_16px_40px_rgba(9,43,80,0.18)] p-4
+		            flex items-start gap-3"
+		     role="status">
+			<span class="w-8 h-8 rounded-full bg-green/10 text-green flex items-center justify-center shrink-0">
+				<x-icon name="check-circle" class="w-5 h-5" />
+			</span>
+			<p class="text-[13px] text-ink m-0 grow">{{ session('enquiry_success') }}</p>
+			<button type="button" data-flash-close aria-label="Dismiss"
+			        class="text-muted hover:text-navy shrink-0 cursor-pointer">
+				<x-icon name="close" class="w-4 h-4" />
+			</button>
+		</div>
+	@endif
+
 	<x-site.header />
 
 	<main id="main">

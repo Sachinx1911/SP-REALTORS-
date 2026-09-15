@@ -31,9 +31,14 @@ class BrochureController extends Controller
 
         $request->session()->put($project->brochureUnlockKey(), true);
 
+        // Go back to the project page so the visitor sees a confirmation, and
+        // hand it the URL to pull the file from. Redirecting straight at the
+        // download would leave them on a page with no feedback — and the
+        // lead popup would then ask for the same details all over again.
         return redirect()
-            ->route('projects.brochure.download', $project)
-            ->with('status', 'Thank you! Your brochure download will begin shortly.');
+            ->route('projects.show', $project)
+            ->with('enquiry_success', 'Thank you! Your brochure download is starting.')
+            ->with('brochure_download_url', route('projects.brochure.download', $project));
     }
 
     /**

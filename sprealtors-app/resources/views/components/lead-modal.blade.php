@@ -9,11 +9,19 @@
     'hidden' => true,
 ])
 
+@php
+    // If this modal's submission failed validation, reopen it on load so the
+    // visitor can see and fix the errors instead of silently losing them.
+    $failed = $errors->any() && old('source') === $source;
+    $startHidden = $hidden && ! $failed;
+@endphp
+
 {{-- Shared lead-capture dialog. Opened by JS via data-modal-open="{id}". --}}
 <div id="{{ $id }}"
      data-modal
+     @if($failed) data-modal-autoopen @endif
      {{ $attributes->merge([
-         'class' => ($hidden ? 'hidden ' : '').'fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4',
+         'class' => ($startHidden ? 'hidden ' : '').'fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4',
      ]) }}
      role="dialog" aria-modal="true" aria-labelledby="{{ $id }}-title">
 
@@ -33,6 +41,16 @@
 				<p class="text-[13px] text-muted mb-4">{{ $text }}</p>
 			@endif
 
+			@if($failed)
+				<div class="mb-4 rounded-[6px] bg-red-50 border border-red-200 px-4 py-3 text-[13px] text-red-700" role="alert">
+					<ul class="list-disc list-inside space-y-0.5">
+						@foreach($errors->all() as $error)
+							<li>{{ $error }}</li>
+						@endforeach
+					</ul>
+				</div>
+			@endif
+
 			<form method="POST" action="{{ $action }}" class="flex flex-col gap-3">
 				@csrf
 				<input type="hidden" name="source" value="{{ $source }}">
@@ -48,17 +66,20 @@
 
 				<div>
 					<label for="name-{{ $id }}" class="sr-only">Name</label>
-					<input type="text" id="name-{{ $id }}" name="name" class="field" placeholder="Name *" required maxlength="120">
+					<input type="text" id="name-{{ $id }}" name="name" class="field" placeholder="Name *" required maxlength="120"
+					       value="{{ $failed ? old('name') : '' }}">
 				</div>
 
 				<div>
 					<label for="phone-{{ $id }}" class="sr-only">Phone Number</label>
-					<input type="tel" id="phone-{{ $id }}" name="phone" class="field" placeholder="Phone Number *" required maxlength="20">
+					<input type="tel" id="phone-{{ $id }}" name="phone" class="field" placeholder="Phone Number *" required maxlength="20"
+					       value="{{ $failed ? old('phone') : '' }}">
 				</div>
 
 				<div>
 					<label for="email-{{ $id }}" class="sr-only">Email Address</label>
-					<input type="email" id="email-{{ $id }}" name="email" class="field" placeholder="Email Address" maxlength="180">
+					<input type="email" id="email-{{ $id }}" name="email" class="field" placeholder="Email Address" maxlength="180"
+					       value="{{ $failed ? old('email') : '' }}">
 				</div>
 
 				{{ $slot ?? '' }}

@@ -180,6 +180,22 @@ function initModals() {
 		if (e.key !== 'Escape') return;
 		document.querySelectorAll('[data-modal]:not(.hidden)').forEach(closeModal);
 	});
+
+	// A modal whose submission failed validation is re-rendered visible by the
+	// server; make sure the page scroll is locked to match.
+	if (document.querySelector('[data-modal-autoopen]')) {
+		document.body.style.overflow = 'hidden';
+	}
+}
+
+/* Success toast ---------------------------------------------------------- */
+function initFlashToast() {
+	const toast = document.querySelector('[data-flash-toast]');
+	if (!toast) return;
+
+	const dismiss = () => toast.remove();
+	toast.querySelector('[data-flash-close]')?.addEventListener('click', dismiss);
+	setTimeout(dismiss, 8000);
 }
 
 /**
@@ -208,8 +224,18 @@ function initLeadPopup() {
 		}
 	};
 
+	// A success toast means an enquiry was just accepted — stop asking.
+	// (Server-authoritative, so it also covers programmatic submits.)
+	if (document.querySelector('[data-flash-toast]')) {
+		state.done = true;
+		save();
+	}
+
 	// Already converted, or dismissed too many times — never show again.
 	if (state.done || state.dismissals >= MAX_DISMISSALS) return;
+
+	// Don't fight a modal the server reopened for validation errors.
+	if (document.querySelector('[data-modal-autoopen]')) return;
 
 	const firstDelay = parseInt(popup.dataset.firstDelay, 10) || 10000;
 	const repeatDelay = parseInt(popup.dataset.repeatDelay, 10) || 30000;
@@ -239,6 +265,7 @@ function initLeadPopup() {
 
 document.addEventListener('DOMContentLoaded', () => {
 	initNavToggle();
+	initFlashToast();
 	initModals();
 	initLeadPopup();
 	initFilterDrawer();
