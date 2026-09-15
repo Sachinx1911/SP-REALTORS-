@@ -62,87 +62,100 @@ While working on the frontend, use `npm run dev` for hot reload instead of `npm 
 
 ---
 
-## 4. Production deployment (cPanel / shared hosting)
+## 4. Deployment (cPanel Git Version Control)
 
-Laravel expects the web root to be `public/`. On shared hosting you usually cannot move the
-document root, so use this layout:
+The repo ships a `.cpanel.yml` at its root, so cPanel does the work. Pushing to
+GitHub is **not** enough on its own — you must press **Deploy** in cPanel (or
+automate it, see below).
+
+### How it works
+
+`.cpanel.yml` lays the app out like this:
 
 ```
-/home/USER/
-├── sprealtors/          ← the whole Laravel app (everything except public/)
-└── public_html/         ← contents of the app's public/ folder
+~/sprealtors     ← application code (app/, config/, vendor/, storage/ …)
+~/public_html    ← contents of public/ (the web root)
 ```
 
-**Steps**
+On each deploy it copies the code across, repoints `index.php` at
+`~/sprealtors`, installs composer dependencies, runs migrations, links
+storage and rebuilds the config/route/view caches.
 
-1. **Build assets locally** (the server does not need Node):
-   ```bash
-   npm install && npm run build
-   ```
-   Upload the generated `public/build/` directory with the rest of `public/`.
-   It is gitignored by default, so copy it across manually or add a deploy step for it.
+### One-time server setup
 
-2. **Upload** the project. Put the application in `~/sprealtors/` and the contents of
-   `public/` into `~/public_html/`.
+Do this once, before the first deploy:
 
-3. **Point `public_html/index.php` at the app** — edit the two require paths:
-   ```php
-   require __DIR__.'/../sprealtors/vendor/autoload.php';
-   $app = require_once __DIR__.'/../sprealtors/bootstrap/app.php';
-   ```
+1. **cPanel → Git™ Version Control → Create.** Clone
+   `https://github.com/Sachinx1911/SP-REALTORS-.git` into e.g. `~/repositories/sprealtors`.
+2. **Create the app directory:** `~/sprealtors`
+3. **Upload the production `.env`** to `~/sprealtors/.env`. It is deliberately
+   not in git. Use the values below.
+4. **Dependencies.** If your host has `composer` on PATH, `.cpanel.yml` installs
+   them for you. If not, run `composer install --no-dev --optimize-autoloader`
+   locally and upload the resulting `vendor/` folder to `~/sprealtors/vendor`
+   once — later deploys reuse it.
+5. **Create the database** in cPanel → MySQL Databases, and put its name/user/
+   password in the `.env`.
+6. **Set PHP 8.3+** in cPanel → MultiPHP Manager, with `pdo_mysql`, `mbstring`,
+   `openssl`, `gd` (WebP), `zip`, `exif`, `fileinfo` enabled.
 
-4. **Install dependencies** (SSH, or upload a locally-built `vendor/`):
-   ```bash
-   cd ~/sprealtors
-   composer install --no-dev --optimize-autoloader
-   ```
+### Production `.env`
 
-5. **Environment** — copy `.env.example` to `.env` and set:
-   ```
-   APP_ENV=production
-   APP_DEBUG=false
-   APP_URL=https://sprealtors.in
-   DB_CONNECTION=mysql
-   DB_HOST=localhost
-   DB_DATABASE=your_db
-   DB_USERNAME=your_db_user
-   DB_PASSWORD=your_db_password
-   ```
-   Then:
-   ```bash
-   php artisan key:generate
-   ```
+```
+APP_NAME="SP REALTORS"
+APP_ENV=production
+APP_DEBUG=false
+APP_KEY=                      # generate: php artisan key:generate
+APP_URL=https://sprealtors.in
 
-6. **Database**
-   ```bash
-   php artisan migrate --force
-   php artisan db:seed --force      # optional: demo content + admin user
-   ```
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=your_db
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
 
-7. **Storage symlink** — uploaded images live in `storage/app/public`:
-   ```bash
-   php artisan storage:link
-   ```
-   If the symlink cannot be created on your host, create it manually so that
-   `public_html/storage` → `~/sprealtors/storage/app/public`.
+SESSION_DRIVER=database
+SESSION_SECURE_COOKIE=true
+SESSION_ENCRYPT=true
+```
 
-8. **Cache for production**
-   ```bash
-   php artisan config:cache
-   php artisan route:cache
-   php artisan view:cache
-   ```
-   Re-run these after any `.env` or code change.
+### Deploying a change
 
-9. **Permissions**
-   ```bash
-   chmod -R 775 storage bootstrap/cache
-   ```
+```bash
+npm run build          # compile assets — the server has no Node
+git add -A
+git commit -m "..."
+git push origin main
+```
 
-10. **PHP version** — set PHP 8.3+ in cPanel, with extensions:
-    `pdo_mysql`, `mbstring`, `openssl`, `gd` (WebP enabled), `zip`, `exif`, `fileinfo`.
+Then in **cPanel → Git Version Control → Manage → Pull or Deploy → Deploy HEAD Commit**.
+
+> **Always run `npm run build` and commit the result before pushing.**
+> `public/build/` is committed on purpose. If you skip it, the live site loads
+> with no styling because cPanel cannot compile assets.
+
+### Automating the deploy (optional)
+
+To deploy on every push instead of clicking Deploy, add a GitHub webhook
+pointing at your cPanel deploy endpoint, or add a cron job on the server:
+
+```bash
+cd ~/repositories/sprealtors && git pull origin main && /usr/local/cpanel/bin/cpanel-git-deploy
+```
+
+### First deploy checklist
+
+After the first successful deploy, verify:
+
+- `https://sprealtors.in` loads **with styling** (if unstyled, `public/build` is missing)
+- `https://sprealtors.in/admin` shows the login page
+- Log in, then change the seeded admin password immediately
+- An uploaded property image displays (confirms the `storage` symlink)
+- `https://sprealtors.in/sitemap.xml` returns XML — submit it in Search Console
 
 ---
+
 
 ## 5. Admin guide
 

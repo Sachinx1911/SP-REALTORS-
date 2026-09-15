@@ -1,0 +1,59 @@
+---
+# cPanel Git Version Control deployment.
+#
+# Runs when you press "Deploy HEAD Commit" in cPanel (Git Version Control),
+# after cPanel has pulled the latest commit into the repository directory.
+#
+# Layout it produces:
+#   ~/sprealtors    → the Laravel application (everything except public/)
+#   ~/public_html   → the contents of public/ (the web root)
+#
+# One-time setup on the server before the first deploy:
+#   1. Create ~/sprealtors
+#   2. Put your production .env in ~/sprealtors/.env  (it is NOT in git)
+#   3. Make sure vendor/ exists — see the composer note below.
+#
+deployment:
+  tasks:
+    - export APP_DIR="$HOME/sprealtors"
+    - export WEB_DIR="$HOME/public_html"
+    - export SRC="$PWD/sprealtors-app"
+
+    - /bin/mkdir -p "$APP_DIR" "$WEB_DIR"
+
+    # --- Application code (everything except the web root) -----------------
+    - /bin/cp -R "$SRC/app" "$SRC/bootstrap" "$SRC/config" "$SRC/database" "$SRC/resources" "$SRC/routes" "$APP_DIR/"
+    - /bin/cp "$SRC/artisan" "$SRC/composer.json" "$SRC/composer.lock" "$APP_DIR/"
+    - /bin/mkdir -p "$APP_DIR/storage/app/public" "$APP_DIR/storage/app/private/brochures"
+    - /bin/mkdir -p "$APP_DIR/storage/framework/cache/data" "$APP_DIR/storage/framework/sessions" "$APP_DIR/storage/framework/views"
+    - /bin/mkdir -p "$APP_DIR/storage/logs" "$APP_DIR/bootstrap/cache"
+
+    # --- Web root ----------------------------------------------------------
+    # Copy public/ contents (including the committed build/ assets).
+    - /bin/cp -R "$SRC/public/." "$WEB_DIR/"
+
+    # index.php ships pointing at ../vendor and ../bootstrap; on cPanel the
+    # app lives one level up in ~/sprealtors, so repoint it.
+    - /bin/sed -i "s#__DIR__.'/../vendor/autoload.php'#'$APP_DIR/vendor/autoload.php'#" "$WEB_DIR/index.php"
+    - /bin/sed -i "s#__DIR__.'/../bootstrap/app.php'#'$APP_DIR/bootstrap/app.php'#" "$WEB_DIR/index.php"
+    - /bin/sed -i "s#__DIR__.'/../storage/framework/maintenance.php'#'$APP_DIR/storage/framework/maintenance.php'#" "$WEB_DIR/index.php"
+
+    # --- Dependencies ------------------------------------------------------
+    # Installs if composer is on PATH. If your host has no composer, run
+    # `composer install --no-dev --optimize-autoloader` locally and upload
+    # vendor/ to ~/sprealtors once — this line then just skips.
+    - cd "$APP_DIR" && (command -v composer >/dev/null 2>&1 && composer install --no-dev --optimize-autoloader --no-interaction || echo "composer not found — using existing vendor/")
+
+    # --- Permissions -------------------------------------------------------
+    - /bin/chmod -R 775 "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
+
+    # --- Database + caches -------------------------------------------------
+    - cd "$APP_DIR" && php artisan migrate --force
+
+    # Uploaded images: link the web root at the app's public storage. Done by
+    # hand rather than `artisan storage:link`, because that resolves relative
+    # to the app directory and public/ lives elsewhere on cPanel.
+    - /bin/rm -rf "$WEB_DIR/storage"
+    - /bin/ln -s "$APP_DIR/storage/app/public" "$WEB_DIR/storage"
+    - cd "$APP_DIR" && php artisan config:clear && php artisan route:clear && php artisan view:clear
+    - cd "$APP_DIR" && php artisan config:cache && php artisan route:cache && php artisan view:cache

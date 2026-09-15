@@ -13,7 +13,9 @@
 /.zed
 /auth.json
 /node_modules
-/public/build
+# public/build IS committed on purpose: cPanel has no Node, so the compiled
+# CSS/JS must ship with the repo or the live site loads unstyled.
+# Run `npm run build` and commit the result before deploying.
 /public/hot
 /public/storage
 /storage/*.key
