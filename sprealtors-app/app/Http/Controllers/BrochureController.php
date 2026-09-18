@@ -27,7 +27,8 @@ class BrochureController extends Controller
         $data['message'] = $data['message']
             ?? 'Requested the brochure for '.$project->name.'.';
 
-        Enquiry::create($data);
+        $enquiry = Enquiry::create($data);
+        $enquiry->notifyOwner();
 
         $request->session()->put($project->brochureUnlockKey(), true);
 

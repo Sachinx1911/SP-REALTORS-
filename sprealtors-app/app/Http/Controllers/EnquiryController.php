@@ -14,7 +14,8 @@ class EnquiryController extends Controller
         $data['ip_address'] = $request->ip();
         $data['status'] = 'new';
 
-        Enquiry::create($data);
+        $enquiry = Enquiry::create($data);
+        $enquiry->notifyOwner();
 
         return back()
             ->with('enquiry_success', 'Thank you! Your enquiry has been received. We will get back to you shortly.')

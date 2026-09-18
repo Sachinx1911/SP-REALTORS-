@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Mail\NewEnquiryMail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class Enquiry extends Model
 {
@@ -75,5 +78,27 @@ class Enquiry extends Model
     public function subject(): ?string
     {
         return $this->property?->title ?? $this->project?->name;
+    }
+
+    /**
+     * Email the broker about this enquiry. The lead is already saved in the
+     * database at this point, so a mail failure (e.g. SMTP not configured
+     * yet) is logged and swallowed — it must never break the public form.
+     */
+    public function notifyOwner(): void
+    {
+        $to = setting('email');
+        if (! $to) {
+            return;
+        }
+
+        try {
+            Mail::to($to)->send(new NewEnquiryMail($this));
+        } catch (\Throwable $e) {
+            Log::warning('Failed to send enquiry notification email.', [
+                'enquiry_id' => $this->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 }
