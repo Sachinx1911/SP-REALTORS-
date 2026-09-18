@@ -19,17 +19,18 @@ class SecurityHeaders
         $response->headers->set('X-Permitted-Cross-Domain-Policies', 'none');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
 
-        // Content Security Policy. Google Fonts + Maps embeds are the only
-        // third parties; 'unsafe-inline' is needed for the inline JSON-LD and
-        // the small inline handlers in the admin delete confirmations.
+        // Content Security Policy. Google Fonts, Maps embeds and Google
+        // Analytics (gtag.js) are the third parties; 'unsafe-inline' is
+        // needed for the inline JSON-LD, the gtag bootstrap snippet, and the
+        // small inline handlers in the admin delete confirmations.
         $response->headers->set('Content-Security-Policy', implode('; ', [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline'",
+            "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
             "font-src 'self' https://fonts.gstatic.com data:",
             "img-src 'self' data: https:",
             "frame-src https://www.google.com https://maps.google.com",
-            "connect-src 'self'",
+            "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com",
             "form-action 'self'",
             "base-uri 'self'",
             "frame-ancestors 'self'",

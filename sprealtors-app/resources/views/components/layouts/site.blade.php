@@ -109,6 +109,15 @@
 		{!! json_encode($websiteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
 	</script>
 
+	{{-- Google Analytics --}}
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WG6TQ0LHHM"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-WG6TQ0LHHM');
+	</script>
+
 	@stack('head')
 </head>
 <body class="antialiased {{ isset($stickyCta) ? 'pb-[60px] lg:pb-0' : '' }}">
