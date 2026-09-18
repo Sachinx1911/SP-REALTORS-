@@ -10,9 +10,14 @@
 ])
 
 @php
+    // $errors is normally shared by the 'web' middleware group, but that
+    // group never runs for a route that doesn't match at all (e.g. a 404),
+    // so this modal — nested in every page via the site layout — must not
+    // assume it's set.
+    //
     // If this modal's submission failed validation, reopen it on load so the
     // visitor can see and fix the errors instead of silently losing them.
-    $failed = $errors->any() && old('source') === $source;
+    $failed = isset($errors) && $errors->any() && old('source') === $source;
     $startHidden = $hidden && ! $failed;
 @endphp
 
